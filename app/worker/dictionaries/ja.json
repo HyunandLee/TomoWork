@@ -6,7 +6,7 @@
     "ku": "Kurdî"
   },
   "brand": {
-    "tagline": "外国人のための スキマワーク"
+    "tagline": "外国人の ための みじかい しごと"
   },
   "nav": {
     "search": "さがす",
@@ -17,184 +17,184 @@
   },
   "dashboard": {
     "kicker": "TunaWork Worker",
-    "title": "仕事",
-    "your_rating": "あなたの評価",
-    "ratings_count": "件",
+    "title": "しごと",
+    "your_rating": "あなたの ひょうか",
+    "ratings_count": "けん",
     "stats": {
-      "pending_apps": "応募中",
-      "accepted": "採用済み",
-      "documents": "提出書類数",
-      "total_earnings": "総稼ぎ額",
-      "avg_rating": "平均評価",
-      "ratings_count": "件の評価"
+      "pending_apps": "もうしこみ中",
+      "accepted": "きまった しごと",
+      "documents": "だした しょるい",
+      "total_earnings": "ぜんぶの おかね",
+      "avg_rating": "へいきんの ひょうか",
+      "ratings_count": "けんの ひょうか"
     },
     "residence": {
-      "kicker": "在留資格チェック",
-      "work_permit": "就労条件あり",
-      "no_permit": "許可なし",
-      "weekly_hours": "今週の予定時間",
+      "kicker": "ざいりゅう しかくの かくにん",
+      "work_permit": "はたらいて いい",
+      "no_permit": "はたらけません",
+      "weekly_hours": "こんしゅう はたらく じかん",
       "ok": "OK",
-      "over": "要確認",
-      "card_no": "在留カード番号",
-      "completed_jobs": "完了した仕事",
-      "upcoming_jobs": "これからの仕事",
-      "count": "件"
+      "over": "かくにん して",
+      "card_no": "ざいりゅうカードの ばんごう",
+      "completed_jobs": "おわった しごと",
+      "upcoming_jobs": "これからの しごと",
+      "count": "けん"
     },
     "recent_docs": {
-      "title": "📁 最近の書類",
-      "empty": "書類がありません",
-      "view_all": "全件見る →"
+      "title": "📁 さいきんの しょるい",
+      "empty": "しょるいは ありません",
+      "view_all": "ぜんぶ 見る →"
     },
     "recent_earnings": {
-      "title": "💴 最近の稼ぎ",
-      "empty": "稼ぎ記録がありません",
-      "view_all": "マイページで見る →"
+      "title": "💴 さいきんの おかね",
+      "empty": "おかねの きろくは ありません",
+      "view_all": "マイページで 見る →"
     },
     "actions": {
-      "title": "次にすること",
-      "find_job": "バイト先を探す",
-      "documents": "自分の書類",
+      "title": "つぎに する こと",
+      "find_job": "しごとを さがす",
+      "documents": "じぶんの しょるい",
       "mypage": "マイページ",
-      "rate": "雇用主を評価"
+      "rate": "お店を ひょうか"
     }
   },
   "jobs": {
     "kicker": "Worker App",
-    "title": "仕事をさがす",
-    "description": "やさしい日本語で内容を確認して、はたらきたいバイト先を選べます。",
-    "pending": "応募中",
+    "title": "しごとを さがす",
+    "description": "やさしい 日本語で ないようを かくにんして、はたらきたい しごとを えらべます。",
+    "pending": "もうしこみ中",
     "warning": {
-      "title": "週労働時間に注意",
-      "desc": "留学・家族滞在の方は週28時間が上限です。複数の仕事をするときも合算されます。"
+      "title": "1しゅうかんに はたらく じかんに 気をつけて",
+      "desc": "りゅうがく・かぞくと すんで いる 人は、1しゅうかんに 28じかんまでしか はたらけません。しごとを いくつ しても、ぜんぶ あわせて 28じかんまでです。"
     },
     "search": {
-      "label": "しごと・場所でさがす",
-      "placeholder": "例：カフェ、渋谷、配送"
+      "label": "しごと・ばしょで さがす",
+      "placeholder": "れい：カフェ、しぶや、はこぶ しごと"
     },
     "category": {
-      "label": "カテゴリ",
-      "all": "すべて"
+      "label": "しゅるい",
+      "all": "ぜんぶ"
     },
-    "empty": "公開中の求人がありません",
+    "empty": "いまは しごとが ありません",
     "card": {
-      "default_employer": "募集企業",
-      "weekly_hours": "週の時間",
-      "monthly_estimate": "月のめやす",
-      "auto_docs": "書類は自動作成",
-      "apply": "この仕事に応募する",
-      "hours_cap_warning": "上限確認"
+      "default_employer": "しごとを だす 会社",
+      "weekly_hours": "1しゅうかんの じかん",
+      "monthly_estimate": "1か月の めやす",
+      "auto_docs": "しょるいは じどうで できます",
+      "apply": "この しごとに もうしこむ",
+      "hours_cap_warning": "じかんを かくにん"
     },
     "status": {
-      "applied": "応募中",
-      "accepted": "採用済み",
-      "rejected": "不採用"
+      "applied": "もうしこみ中",
+      "accepted": "きまった",
+      "rejected": "えらばれません でした"
     },
     "messages": {
-      "apply_success": "応募しました！雇用主の採用を待ちましょう",
+      "apply_success": "もうしこみました！お店からの へんじを まちましょう",
       "error_prefix": "エラー: "
     }
   },
   "earnings": {
     "kicker": "My Page",
     "title": "マイページ",
-    "description": "評価、稼ぎ、提出済みデータを確認できます。",
-    "auto_chip": "自動反映",
+    "description": "ひょうか、おかね、だした データを かくにん できます。",
+    "auto_chip": "じどうで はいる",
     "total_label": "これまで ぜんぶ",
-    "total_note": "雇用主の書類提出・就労データから反映",
+    "total_note": "お店が だした しょるいと、はたらいた データから はいります",
     "no_edit": {
-      "title": "自分では編集できません",
-      "desc": "給与は、雇用主が提出した様式第3号と就労条件（時給・週時間）をもとに反映されます。"
+      "title": "じぶんでは なおせません",
+      "desc": "おかねは、お店が だした しょるい（様式第3号）と、はたらく じょうけん（じかんの おかね・1しゅうかんの じかん）から はいります。"
     },
     "chart": {
-      "title": "月ごとの稼ぎ",
-      "empty": "提出後にグラフが表示されます",
-      "aria": "月ごとの稼ぎグラフ"
+      "title": "つきごとの おかね",
+      "empty": "しょるいを だすと グラフが でます",
+      "aria": "つきごとの おかねの グラフ"
     },
     "empty": {
-      "title": "稼ぎ記録がありません",
-      "desc": "雇用主が書類を提出すると、ここに自動で反映されます"
+      "title": "おかねの きろくは ありません",
+      "desc": "お店が しょるいを だすと、ここに じどうで はいります"
     },
     "row": {
-      "month_suffix": "分",
-      "source_note": "提出データ由来",
-      "default_employer": "雇用主",
-      "ratings_suffix": "件の評価"
+      "month_suffix": "ぶん",
+      "source_note": "だした データから",
+      "default_employer": "お店",
+      "ratings_suffix": "けんの ひょうか"
     }
   },
   "documents": {
     "kicker": "Documents",
-    "title": "書類",
-    "description": "ハローワークに出した書類を確認できます。",
-    "count_suffix": "件",
+    "title": "しょるい",
+    "description": "ハローワークに だした しょるいを かくにん できます。",
+    "count_suffix": "けん",
     "auto": {
-      "title": "書類はアプリが自動作成",
-      "desc": "あなたは在留カード情報を確認するだけ。むずかしい手続きは雇用主とアプリで進めます。"
+      "title": "しょるいは アプリが じどうで つくります",
+      "desc": "あなたは ざいりゅうカードの じょうほうを かくにんする だけです。むずかしい てつづきは、お店と アプリが します。"
     },
     "empty": {
-      "title": "書類がありません",
-      "desc": "雇用主があなたについて書類を提出すると、ここに表示されます"
+      "title": "しょるいは ありません",
+      "desc": "お店が あなたの しょるいを だすと、ここに でます"
     },
     "card": {
-      "form_type": "外国人雇用状況届出書",
-      "submitted_to": "提出先: ",
-      "submitted_on": "提出日: ",
-      "view_content": "書類の内容を見る",
+      "form_type": "外国人を やとった しらせ",
+      "submitted_to": "だした ところ: ",
+      "submitted_on": "だした ひ: ",
+      "view_content": "しょるいの なかみを 見る",
       "default_form": "様式第3号"
     }
   },
   "consult": {
     "kicker": "Support",
-    "title": "相談",
-    "description": "こまったことを、やさしい日本語で確認できます。",
+    "title": "そうだん",
+    "description": "こまった ことを、やさしい 日本語で きけます。",
     "secret_chip": "ひみつ",
     "free": {
-      "title": "そうだんも べんきょうも むりょう",
-      "desc": "お店の利用料の一部で、ワーカーの生活相談と日本語学習を支えます。"
+      "title": "そうだんも べんきょうも ただ（むりょう）",
+      "desc": "お店が はらう おかねの 一部で、はたらく 人の そうだんと 日本語の べんきょうを たすけます。"
     },
     "section_title": "こまったこと、ありませんか？",
     "ai": {
       "title": "AI に きく",
-      "desc": "本番では24時間、やさしい日本語で答えます。",
+      "desc": "いつでも（24じかん）、やさしい 日本語で こたえます。",
       "chip": "すぐ"
     },
     "human": {
       "title": "人に そうだんする",
-      "desc": "専門家への予約と通訳サポートを想定しています。",
-      "chip": "予約"
+      "desc": "せんもんの 人の よやくと、つうやくの サポートが あります。",
+      "chip": "よやく"
     },
-    "topics_title": "よくある相談",
+    "topics_title": "よくある そうだん",
     "topics": [
-      ["ビザ・ざいりゅう", "在留カード、更新、はたらける時間の相談"],
-      ["ぜいきん・おかね", "給与、税金、生活費の不安"],
-      ["びょういん・けんこう", "病気、けが、病院の行き方"],
-      ["しごとの なやみ", "職場で困ったこと、言葉の不安"]
+      ["ビザ・ざいりゅう", "ざいりゅうカード、こうしん、はたらける じかんの そうだん"],
+      ["ぜいきん・おかね", "おきゅうりょう、ぜいきん、せいかつの おかねの しんぱい"],
+      ["びょういん・けんこう", "びょうき、けが、びょういんの 行きかた"],
+      ["しごとの なやみ", "しごとで こまった こと、ことばの しんぱい"]
     ]
   },
   "rate": {
     "kicker": "Mutual Rating",
-    "title": "評価",
-    "description": "お店を星1〜5で評価します。おたがいの信頼につながります。",
-    "section_title": "お店はどうでしたか？",
+    "title": "ひょうか",
+    "description": "お店を 星1〜5で ひょうか します。おたがいを しんよう できます。",
+    "section_title": "お店は どうでしたか？",
     "hire_id": {
-      "label": "就労ID (Hire ID)",
-      "placeholder": "例: hire-c001",
-      "hint": "シードデータの完了済み就労: "
+      "label": "しごとID (Hire ID)",
+      "placeholder": "れい: hire-c001",
+      "hint": "おわった しごとの ID: "
     },
     "stars": {
       "label": "星1〜5",
-      "selected": "{n}星を選択中"
+      "selected": "{n}つ星を えらんで います"
     },
     "comment": {
-      "label": "コメント（任意）",
-      "placeholder": "ていねいに教えてくれた、また働きたい など"
+      "label": "コメント（じゆう）",
+      "placeholder": "ていねいに おしえて くれた、また はたらきたい など"
     },
-    "submit": "評価を送信",
+    "submit": "ひょうかを おくる",
     "success": {
-      "title": "評価を送信しました！",
+      "title": "ひょうかを おくりました！",
       "desc": "{n}★ — ありがとうございます"
     },
     "errors": {
-      "select_stars": "星を選択してください",
+      "select_stars": "星を えらんで ください",
       "prefix": "エラー: "
     }
   }
