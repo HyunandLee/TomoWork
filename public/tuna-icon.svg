@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Blue circle background -->
+  <circle cx="60" cy="60" r="58" fill="#2563eb" stroke="#1a3875" stroke-width="2"/>
+  <!-- Tuna fish body -->
+  <ellipse cx="55" cy="62" rx="32" ry="22" fill="#1a3875"/>
+  <!-- Tail fin -->
+  <polygon points="90,50 110,38 110,86 90,74" fill="#1a3875"/>
+  <!-- Belly -->
+  <ellipse cx="52" cy="66" rx="24" ry="14" fill="#e0f2fe"/>
+  <!-- Eye -->
+  <circle cx="32" cy="56" r="6" fill="white"/>
+  <circle cx="33" cy="56" r="3" fill="#0f2456"/>
+  <!-- Briefcase -->
+  <rect x="50" y="68" width="28" height="22" rx="3" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <rect x="56" y="64" width="16" height="6" rx="2" fill="#1d4ed8" stroke="white" stroke-width="1.5"/>
+  <line x1="50" y1="79" x2="78" y2="79" stroke="white" stroke-width="1.5"/>
+  <!-- Fin top -->
+  <path d="M 45 40 Q 60 28 75 40" fill="#0f2456"/>
+</svg>

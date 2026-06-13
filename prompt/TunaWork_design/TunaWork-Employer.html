@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TunaWork for Business — 雇用主ダッシュボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'M PLUS Rounded 1c', system-ui, sans-serif;
+    background: #E6ECEA;
+    background-image: radial-gradient(circle at 20% 0%, #EEF3F1 0%, #DDE6E3 60%, #D2DCD9 100%);
+    min-height: 100vh;
+  }
+  #root { min-height: 100vh; }
+  .tw-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+  .tw-scroll::-webkit-scrollbar-thumb { background: rgba(23,59,55,0.16); border-radius: 99px; border: 3px solid transparent; background-clip: padding-box; }
+  .tw-scroll::-webkit-scrollbar-track { background: transparent; }
+  input::placeholder { color: var(--tw-muted); opacity: 0.85; }
+  button { -webkit-tap-highlight-color: transparent; }
+  ruby rt { display: none; }
+  @keyframes tw-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes tw-pop { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: none; } }
+  @keyframes tw-spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="browser-window.jsx"></script>
+<script type="text/babel" src="tw-ui.jsx"></script>
+<script type="text/babel" src="tw-employer-data.jsx"></script>
+<script type="text/babel" src="tw-employer-screens-a.jsx"></script>
+<script type="text/babel" src="tw-employer-screens-b.jsx"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+function EmployerApp() {
+  const [view, setView] = useState('dash');
+  const [hire, setHire] = useState(null);
+  const [rate, setRate] = useState(null);
+  const [post, setPost] = useState(false);
+
+  const rootVars = {
+    '--tw-primary': '#10B3A3',
+    '--tw-primary-dark': '#0A6E66',
+    '--tw-primary-soft': '#DFF4F1',
+    '--tw-coral': '#FB7551',
+    '--tw-coral-soft': '#FFE6DF',
+    '--tw-yellow': '#FFC53D',
+    '--tw-ink': '#173B37',
+    '--tw-muted': '#6E837F',
+    '--tw-bg': '#F2F6F4',
+    '--tw-card': '#FFFFFF',
+    '--tw-line': 'rgba(23,59,55,0.10)',
+    '--tw-num': "'M PLUS Rounded 1c', system-ui",
+    '--tw-mono': "ui-monospace, 'SF Mono', Menlo, monospace",
+  };
+
+  const main = () => {
+    switch (view) {
+      case 'dash': return <Dashboard setView={setView} onHire={setHire} onRate={setRate} />;
+      case 'jobs': return <JobsView onPost={() => setPost(true)} setView={setView} />;
+      case 'applicants': return <ApplicantsView onHire={setHire} />;
+      case 'shifts': return <ShiftsView onRate={setRate} />;
+      case 'docs': return <DocsView />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '26px 20px 46px', gap: 16 }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 21, fontWeight: 800, color: '#173B37', letterSpacing: -0.3 }}>
+          <span style={{ width: 29, height: 29, borderRadius: 9, background: '#10B3A3', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🐟</span>
+          TunaWork <span style={{ fontSize: 13, fontWeight: 800, color: '#0A6E66', background: '#DFF4F1', padding: '3px 9px', borderRadius: 7, letterSpacing: 0.5 }}>for Business</span>
+        </div>
+        <div style={{ fontSize: 13, color: '#6E837F', fontWeight: 600, marginTop: 7 }}>外国人を かんたんに 採用 · ハローワーク書類は 自動作成 · <a href="TunaWork.html" style={{ color: '#0A6E66', fontWeight: 700, textDecoration: 'none' }}>労働者アプリを見る →</a></div>
+      </div>
+
+      <ChromeWindow width={1320} height={862} url="business.tunawork.jp/dashboard" tabs={[{ title: 'TunaWork for Business' }]}>
+        <div style={{ height: '100%', position: 'relative', display: 'flex', background: 'var(--tw-bg)', ...rootVars, fontFamily: "'M PLUS Rounded 1c', system-ui" }}>
+          <Sidebar view={view} setView={setView} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <TopBar view={view} onPost={() => setPost(true)} />
+            <div className="tw-scroll" style={{ flex: 1, overflow: 'auto' }}>
+              {main()}
+            </div>
+          </div>
+
+          {hire && <HireModal applicant={hire} onClose={() => setHire(null)} />}
+          {rate && <RateWorkerModal worker={rate} onClose={() => setRate(null)} />}
+          {post && <PostJobModal onClose={() => setPost(false)} />}
+        </div>
+      </ChromeWindow>
+
+      <div style={{ fontSize: 11.5, color: '#6E837F', fontWeight: 600, opacity: 0.85 }}>サイドバーから 各ページへ · 応募者を「採用する」と ハローワーク書類が 自動でできます</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<EmployerApp />);
+</script>
+</body>
+</html>
