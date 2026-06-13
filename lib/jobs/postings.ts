@@ -3,6 +3,10 @@ import type { JobPosting } from '@/lib/types';
 import { repo, now } from '@/lib/db/repo';
 import { genId } from '@/lib/util/id';
 
+export interface JobPostingView extends JobPosting {
+  employerName: string;
+}
+
 export interface CreateJobInput {
   employerId: string;
   title: string;
@@ -31,6 +35,17 @@ export function createJob(input: CreateJobInput): JobPosting {
 /** worker 向け: open の求人のみ。 */
 export function listOpenJobs(): JobPosting[] {
   return repo.listOpenJobs();
+}
+
+/** worker 向け: open の求人に企業名を付与。 */
+export function listOpenJobViews(): JobPostingView[] {
+  return repo.listOpenJobs().map((job) => {
+    const employer = repo.getEmployer(job.employerId);
+    return {
+      ...job,
+      employerName: employer?.officeName ?? job.employerId,
+    };
+  });
 }
 
 /** employer 向け: 自社の求人のみ。 */

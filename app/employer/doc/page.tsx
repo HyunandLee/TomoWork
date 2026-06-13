@@ -1,10 +1,11 @@
 import { auth } from '@/lib/auth/options';
 import { redirect } from 'next/navigation';
 import { repo } from '@/lib/db/repo';
-import { previewShiki3, submitShiki3, SubmissionRejected } from '@/lib/submission/submit';
+import { previewShiki3 } from '@/lib/submission/submit';
 import { runSeed } from '@/lib/seed';
 import { getDb } from '@/lib/db/migrate';
 import type { SessionUser } from '@/lib/types';
+import { validate } from '@/lib/rules/validate';
 import DocClient from './DocClient';
 
 function ensureSeeded() {
@@ -18,7 +19,7 @@ function ensureSeeded() {
 export default async function EmployerDocPage({
   searchParams,
 }: {
-  searchParams: Promise<{ hireId?: string; submitted?: string }>;
+  searchParams: Promise<{ hireId?: string }>;
 }) {
   const session = await auth();
   if (!session?.user) redirect('/login');
@@ -27,28 +28,37 @@ export default async function EmployerDocPage({
 
   ensureSeeded();
 
-  const { hireId, submitted } = await searchParams;
+  const { hireId } = await searchParams;
 
-  // 利用可能な hire 一覧（pending）
   const allHires = repo.listHiresByEmployer(user.linkedEmployerId);
-  const pendingHires = allHires.filter(h => h.status === 'pending' || h.status === 'active');
+  const pendingHires = allHires
+    .filter(h => h.status === 'pending')
+    .filter((h) => {
+      const worker = repo.getWorker(h.workerId);
+      if (!worker) return false;
+      return validate(worker, {
+        weeklyHours: h.weeklyHours,
+        jobCategory: h.jobCategory,
+        inLongVacation: h.inLongVacation,
+        hireDate: h.hireDate,
+        shifts: h.shifts,
+      }).ok;
+    })
+    .map((h) => {
+      const worker = repo.getWorker(h.workerId);
+      const job = h.jobId ? repo.getJob(h.jobId) : undefined;
+      return {
+        ...h,
+        workerName: worker?.nameRoman ?? h.workerId,
+        workerNameKana: worker?.nameKana ?? h.workerId,
+        jobTitle: job?.title ?? h.jobCategory,
+      };
+    });
 
   let preview = null;
-  let submission = null;
-  let submitError = null;
 
   if (hireId) {
     preview = previewShiki3(hireId);
-  }
-
-  if (submitted === '1' && hireId) {
-    try {
-      submission = submitShiki3(hireId);
-    } catch (e) {
-      if (e instanceof SubmissionRejected) {
-        submitError = e.message;
-      }
-    }
   }
 
   return (
@@ -56,8 +66,6 @@ export default async function EmployerDocPage({
       pendingHires={pendingHires}
       selectedHireId={hireId}
       preview={preview ?? undefined}
-      submission={submission ?? undefined}
-      submitError={submitError ?? undefined}
     />
   );
 }

@@ -10,9 +10,27 @@ export default async function EmployerLayout({ children }: { children: React.Rea
   if (user.role !== 'employer') redirect('/login');
 
   return (
-    <div className="page-shell">
-      <Sidebar role="employer" email={user.email} />
-      <div className="main-content">{children}</div>
+    <div className="business-stage">
+      <div className="business-brand">
+        <img src="/tuna-icon.png" alt="" />
+        <strong>TunaWork</strong>
+        <span>for Business</span>
+      </div>
+      <div className="browser-window">
+        <div className="browser-tabbar">
+          <span className="traffic red" />
+          <span className="traffic yellow" />
+          <span className="traffic green" />
+          <div className="browser-tab">TunaWork for Business</div>
+        </div>
+        <div className="browser-toolbar">
+          <div className="browser-url">business.tunawork.jp/dashboard</div>
+        </div>
+        <div className="page-shell business-shell">
+          <Sidebar role="employer" email={user.email} />
+          <div className="main-content">{children}</div>
+        </div>
+      </div>
     </div>
   );
 }

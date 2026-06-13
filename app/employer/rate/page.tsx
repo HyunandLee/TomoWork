@@ -1,39 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
-import type { HireEvent } from '@/lib/types';
-
-interface CompletedHire extends HireEvent {
-  workerName?: string;
-}
+import { useState } from 'react';
 
 export default function EmployerRatePage() {
-  const [hires, setHires] = useState<CompletedHire[]>([]);
-  const [loading, setLoading] = useState(true);
   const [stars, setStars] = useState<Record<string, number>>({});
   const [comments, setComments] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState<Set<string>>(new Set());
   const [msg, setMsg] = useState('');
-
-  useEffect(() => {
-    // employer の completed hire を取得
-    fetch('/api/submissions').then(r => r.json()).then(async (submRes) => {
-      if (!submRes.ok) return;
-      // completedな hire を ratings APIから取得するのではなく、
-      // hireはAPIから直接取れないためsubmissionsから推定
-      // ここでは簡易的にsubmissionsのworkerIdからhireを逆引き
-      setLoading(false);
-    });
-    // 実際にはemployer hireのAPIを使う
-    // ここではsubmissionsから完了済み就労のリストを構築
-    fetch('/api/submissions').then(r => r.json()).then(d => {
-      if (d.ok) {
-        // submissions から hireId は直接取れないため、
-        // ダミーで submissions から hire を表示
-        setHires([]); // 下で別途取得
-      }
-      setLoading(false);
-    });
-  }, []);
 
   // 実際の完了済み就労取得（hire/completeのAPIが無いため admin 向けに内部で取得）
   // ここではrating投稿フォームをhire IDベースで表示
@@ -58,17 +30,29 @@ export default function EmployerRatePage() {
   }
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>⭐ 労働者を評価する</h1>
-        <p>完了済み就労の労働者に星1〜5で評価します</p>
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Mutual Rating</div>
+          <h1>労働者を評価する</h1>
+          <p>完了済み就労のワーカーに星1〜5で評価します。</p>
+        </div>
+        <span className="tw-stars" style={{ color: '#fff' }}>★ ★ ★</span>
       </div>
 
       {msg && <div className="alert alert-success mb">{msg}</div>}
 
       <div className="card">
-        <div className="card-title">評価フォーム</div>
-        <p className="text-sm text-muted mb">就労ID（hire ID）を入力して評価を送信します。シードデータの完了済み就労: <code>hire-c001</code>, <code>hire-c002</code></p>
+        <div className="card-title">ワーカーはどうでしたか？</div>
+        <div className="tw-soft-panel mb">
+          <div className="tw-row">
+            <span className="tw-avatar">★</span>
+            <div>
+              <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>相互評価</div>
+              <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>就労IDを指定して評価します。シード例: <code>hire-c001</code>, <code>hire-c002</code></div>
+            </div>
+          </div>
+        </div>
 
         <div className="form-group">
           <label className="form-label">就労ID (Hire ID)</label>
@@ -84,7 +68,7 @@ export default function EmployerRatePage() {
         {hireId && !submitted.has(hireId) && (
           <>
             <div className="form-group">
-              <label className="form-label">評価 (星1〜5)</label>
+              <label className="form-label">星1〜5</label>
               <div className="stars">
                 {[1,2,3,4,5].map(n => (
                   <button
@@ -114,15 +98,17 @@ export default function EmployerRatePage() {
               className="btn btn-primary"
               onClick={() => handleRate(hireId)}
             >
-              ⭐ 評価を送信
+              評価を送信
             </button>
           </>
         )}
 
         {submitted.has(hireId) && (
-          <div className="banner banner-ok">
-            <span className="banner-icon">✅</span>
-            <div>評価を送信しました（{stars[hireId]}星）</div>
+          <div className="tw-soft-panel">
+            <div className="tw-row">
+              <span className="tw-avatar">済</span>
+              <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>評価を送信しました（{stars[hireId]}星）</div>
+            </div>
           </div>
         )}
       </div>

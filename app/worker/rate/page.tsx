@@ -26,16 +26,20 @@ export default function WorkerRatePage() {
   }
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>⭐ 雇用主を評価する</h1>
-        <p>完了済み就労の雇用主に星1〜5で評価します</p>
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Mutual Rating</div>
+          <h1><ruby>評価<rt>ひょうか</rt></ruby></h1>
+          <p>お店を星1〜5で評価します。おたがいの信頼につながります。</p>
+        </div>
+        <span className="tw-stars" style={{ color: '#fff' }}>★ ★ ★</span>
       </div>
 
       {msg && <div className={`alert ${submitted ? 'alert-success' : 'alert-error'} mb`}>{msg}</div>}
 
       <div className="card">
-        <div className="card-title">評価フォーム</div>
+        <div className="card-title">お店はどうでしたか？</div>
         {!submitted ? (
           <form onSubmit={handleRate}>
             <div className="form-group">
@@ -52,7 +56,7 @@ export default function WorkerRatePage() {
             </div>
 
             <div className="form-group">
-              <label className="form-label">評価 (星1〜5)</label>
+              <label className="form-label">星1〜5</label>
               <div className="stars">
                 {[1,2,3,4,5].map(n => (
                   <button
@@ -77,7 +81,7 @@ export default function WorkerRatePage() {
                 className="form-textarea"
                 value={comment}
                 onChange={e => setComment(e.target.value)}
-                placeholder="雇用主への評価コメント..."
+                placeholder="ていねいに教えてくれた、また働きたい など"
               />
             </div>
 
@@ -86,15 +90,17 @@ export default function WorkerRatePage() {
               type="submit"
               className="btn btn-primary"
             >
-              ⭐ 評価を送信
+              評価を送信
             </button>
           </form>
         ) : (
-          <div className="banner banner-ok">
-            <span className="banner-icon">✅</span>
+          <div className="tw-soft-panel">
+            <div className="tw-row">
+            <span className="tw-avatar">済</span>
             <div>
-              <div className="banner-title">評価を送信しました！</div>
+              <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>評価を送信しました！</div>
               <div>{stars}★ — ありがとうございます</div>
+            </div>
             </div>
           </div>
         )}

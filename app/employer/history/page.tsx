@@ -12,10 +12,14 @@ export default async function EmployerHistoryPage() {
   const submissions = repo.listSubmissionsByEmployer(user.linkedEmployerId);
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>📁 届出履歴</h1>
-        <p>提出した外国人雇用状況届出書の一覧です</p>
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Submissions</div>
+          <h1>届出履歴</h1>
+          <p>提出した外国人雇用状況届出書の一覧です。</p>
+        </div>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>{submissions.length}件</span>
       </div>
 
       {submissions.length === 0 ? (
@@ -26,6 +30,7 @@ export default async function EmployerHistoryPage() {
         </div>
       ) : (
         <div className="card">
+          <div className="card-title">ハローワーク提出履歴</div>
           <div className="table-wrap">
             <table>
               <thead>

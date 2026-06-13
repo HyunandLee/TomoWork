@@ -1,5 +1,5 @@
 // 提出シミュレーション。OK時のみ提出 → 受付番号＋受理日時を返す。
-import type { Worker, Employer, HireEvent, Submission, HireInput } from '@/lib/types';
+import type { Worker, Employer, HireEvent, Submission, HireInput, Earning } from '@/lib/types';
 import { repo, now } from '@/lib/db/repo';
 import { genId } from '@/lib/util/id';
 import { validate } from '@/lib/rules/validate';
@@ -62,6 +62,26 @@ export function submitShiki3(hireId: string): Submission {
     createdAt: now(),
   };
   repo.insertSubmission(submission);
+
+  if (hire.wage != null) {
+    const monthKey = hire.hireDate.slice(0, 7);
+    const alreadyReflected = repo
+      .listEarningsByWorker(worker.id)
+      .some((earning) => earning.hireId === hire.id && earning.workedOn.startsWith(monthKey));
+
+    if (!alreadyReflected) {
+      const monthlyEstimate = Math.round(hire.wage * hire.weeklyHours * 4.3);
+      const earning: Earning = {
+        id: genId('earn'),
+        workerId: worker.id,
+        hireId: hire.id,
+        amount: monthlyEstimate,
+        workedOn: `${monthKey}-01`,
+        createdAt: now(),
+      };
+      repo.insertEarning(earning);
+    }
+  }
 
   // 提出後は就労を active に（pending → active）。
   if (hire.status === 'pending') repo.setHireStatus(hire.id, 'active');

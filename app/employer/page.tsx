@@ -33,10 +33,17 @@ export default async function EmployerDashboard() {
   const openJobs = jobs.filter(j => j.status === 'open');
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>🏢 ダッシュボード</h1>
-        <p>{employer?.officeName} — {employer?.officeAddress}</p>
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>TunaWork for Business</div>
+          <h1>おかえりなさい、{employer?.officeName ?? '雇用主'} さん</h1>
+          <p>{employer?.officeAddress} / 管轄: {employer?.helloWorkOffice}</p>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: '.78rem', opacity: .75, fontWeight: 700 }}>今すぐ対応</div>
+          <div style={{ fontSize: '2rem', fontWeight: 800 }}>{pendingHires.length + applications.filter(a => a.status === 'applied').length}</div>
+        </div>
       </div>
 
       <div className="stat-grid">
@@ -62,9 +69,45 @@ export default async function EmployerDashboard() {
         </div>
       </div>
 
-      <div className="card-grid">
+      <div className="tw-card-grid">
         <div className="card">
-          <div className="card-title">📋 届出待ち — 要対応</div>
+          <div className="card-title">やること</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+            <div className="tw-soft-panel tw-row-between">
+              <div className="tw-row">
+                <span className="tw-avatar">応</span>
+                <div>
+                  <div style={{ fontWeight: 800 }}>新しい応募を確認する</div>
+                  <div style={{ color: 'var(--tw-muted)', fontSize: '.85rem' }}>{applications.filter(a => a.status === 'applied').length}件が未対応です</div>
+                </div>
+              </div>
+              <Link href="/employer/applicants" className="btn btn-secondary btn-sm">見る</Link>
+            </div>
+            <div className="tw-coral-panel tw-row-between">
+              <div className="tw-row">
+                <span className="tw-avatar" style={{ background: '#fff', color: 'var(--tw-coral)' }}>書</span>
+                <div>
+                  <div style={{ fontWeight: 800 }}>ハローワーク書類を作成する</div>
+                  <div style={{ color: '#9a3d26', fontSize: '.85rem' }}>{pendingHires.length}件が届出待ちです</div>
+                </div>
+              </div>
+              <Link href="/employer/doc" className="btn btn-primary btn-sm">作成</Link>
+            </div>
+            <div className="tw-soft-panel tw-row-between">
+              <div className="tw-row">
+                <span className="tw-avatar">★</span>
+                <div>
+                  <div style={{ fontWeight: 800 }}>完了した仕事を評価する</div>
+                  <div style={{ color: 'var(--tw-muted)', fontSize: '.85rem' }}>{completedHires.length}件の履歴があります</div>
+                </div>
+              </div>
+              <Link href="/employer/rate" className="btn btn-secondary btn-sm">評価</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-title">届出待ち — 要対応</div>
           {pendingHires.length === 0 ? (
             <div className="empty-state" style={{ padding: '1rem' }}>
               <p className="text-muted text-sm">待機中の就労はありません</p>
@@ -80,7 +123,7 @@ export default async function EmployerDashboard() {
                       <div style={{ fontSize: '.78rem', color: 'var(--gray-500)' }}>{h.jobCategory} / 週{h.weeklyHours}h / {h.hireDate}</div>
                     </div>
                     <Link href={`/employer/doc?hireId=${h.id}`} className="btn btn-primary btn-sm">
-                      📄 書類生成
+                      書類生成
                     </Link>
                   </div>
                 );
@@ -90,7 +133,7 @@ export default async function EmployerDashboard() {
         </div>
 
         <div className="card">
-          <div className="card-title">📁 最近の届出</div>
+          <div className="card-title">最近の届出</div>
           {submissions.length === 0 ? (
             <div className="empty-state" style={{ padding: '1rem' }}>
               <p className="text-muted text-sm">届出がありません</p>
@@ -119,12 +162,12 @@ export default async function EmployerDashboard() {
       </div>
 
       <div className="card mt-lg">
-        <div className="card-title">🚀 クイックアクション</div>
-        <div className="flex gap" style={{ flexWrap: 'wrap' }}>
-          <Link href="/employer/jobs" className="btn btn-primary">📋 求人を投稿する</Link>
-          <Link href="/employer/applicants" className="btn btn-secondary">👥 応募者を確認する</Link>
-          <Link href="/employer/doc" className="btn btn-secondary">📄 書類を生成する</Link>
-          <Link href="/employer/history" className="btn btn-secondary">📁 届出履歴</Link>
+        <div className="card-title">クイックアクション</div>
+        <div className="tw-actions">
+          <Link href="/employer/jobs" className="btn btn-primary">求人を投稿する</Link>
+          <Link href="/employer/applicants" className="btn btn-secondary">応募者を確認する</Link>
+          <Link href="/employer/doc" className="btn btn-secondary">書類を生成する</Link>
+          <Link href="/employer/history" className="btn btn-secondary">届出履歴</Link>
         </div>
       </div>
     </div>

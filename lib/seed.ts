@@ -1,9 +1,10 @@
 // シードデータ（dev用）。
 // - アカウント: employer@example.com / worker@example.com / admin@example.com (PW: password)
-// - ワーカー: 正常3種 + 地雷3種
+// - ワーカー: 通常利用に沿ったサンプル3種
 // - 求人・完了済み就労・評価・稼ぎサンプル
 import bcrypt from 'bcryptjs';
 import { repo } from '@/lib/db/repo';
+import { getDb } from '@/lib/db/migrate';
 import { genId } from '@/lib/util/id';
 import type { User, Worker, Employer, JobPosting, HireEvent, Rating, Earning } from '@/lib/types';
 
@@ -16,17 +17,106 @@ function d(offset: number): string {
   return dt.toISOString().slice(0, 10);
 }
 
+export function ensureDevSeedData() {
+  const db = getDb();
+  const hash = bcrypt.hashSync('password', 10);
+
+  const employers = [
+    ['emp-001', 'サカナカフェ株式会社', '東京都渋谷区恵比寿1-1-1', '渋谷公共職業安定所'],
+    ['emp-002', 'ミナトマート株式会社', '東京都新宿区西新宿2-2-2', '新宿公共職業安定所'],
+    ['emp-003', '東京クイックデリバリー合同会社', '東京都港区芝3-3-3', '品川公共職業安定所'],
+    ['emp-004', 'グリーンホテル上野', '東京都台東区上野4-4-4', '上野公共職業安定所'],
+  ];
+
+  const users = [
+    ['usr-emp-001', 'employer@example.com', 'employer', 'emp-001', null],
+    ['usr-emp-002', 'mart@example.com', 'employer', 'emp-002', null],
+    ['usr-emp-003', 'delivery@example.com', 'employer', 'emp-003', null],
+    ['usr-emp-004', 'hotel@example.com', 'employer', 'emp-004', null],
+  ];
+
+  const jobs = [
+    ['job-001', 'emp-001', 'カフェスタッフ（ホール）', '飲食店', 20, 1100, '東京都渋谷区', 'open'],
+    ['job-002', 'emp-002', 'コンビニ店員', '小売', 25, 1050, '東京都新宿区', 'open'],
+    ['job-003', 'emp-003', 'デリバリースタッフ', '配送', 15, 1200, '東京都港区', 'open'],
+    ['job-004', 'emp-001', 'カフェスタッフ（キッチン補助）', '飲食店', 18, 1150, '東京都渋谷区', 'open'],
+    ['job-005', 'emp-002', 'スーパー品出しスタッフ', '小売', 16, 1120, '東京都中野区', 'open'],
+    ['job-006', 'emp-004', 'ホテル清掃スタッフ', '清掃', 20, 1180, '東京都台東区', 'open'],
+    ['job-007', 'emp-004', '朝食会場スタッフ', 'ホテル', 12, 1200, '東京都台東区', 'open'],
+  ];
+
+  const tx = db.transaction(() => {
+    const employerStmt = db.prepare(`
+      INSERT INTO employers (id, office_name, office_address, hellowork_office)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        office_name = excluded.office_name,
+        office_address = excluded.office_address,
+        hellowork_office = excluded.hellowork_office
+    `);
+    for (const employer of employers) employerStmt.run(...employer);
+
+    const userStmt = db.prepare(`
+      INSERT INTO users (id, email, password_hash, role, linked_employer_id, linked_worker_id, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        email = excluded.email,
+        password_hash = excluded.password_hash,
+        role = excluded.role,
+        linked_employer_id = excluded.linked_employer_id,
+        linked_worker_id = excluded.linked_worker_id
+    `);
+    for (const [id, email, role, employerId, workerId] of users) {
+      userStmt.run(id, email, hash, role, employerId, workerId, NOW);
+    }
+
+    const jobStmt = db.prepare(`
+      INSERT INTO job_postings (id, employer_id, title, job_category, weekly_hours, hourly_wage, location, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        employer_id = excluded.employer_id,
+        title = excluded.title,
+        job_category = excluded.job_category,
+        weekly_hours = excluded.weekly_hours,
+        hourly_wage = excluded.hourly_wage,
+        location = excluded.location,
+        status = excluded.status
+    `);
+    for (const job of jobs) jobStmt.run(...job, NOW);
+  });
+
+  tx();
+}
+
 export async function runSeed() {
   const hash = (pw: string) => bcrypt.hashSync(pw, 10);
 
   // ---- employers ----
   const emp1: Employer = {
     id: 'emp-001',
-    officeName: '株式会社サカナフーズ',
+    officeName: 'サカナカフェ株式会社',
     officeAddress: '東京都渋谷区恵比寿1-1-1',
     helloWorkOffice: '渋谷公共職業安定所',
   };
-  repo.insertEmployer(emp1);
+  const emp2: Employer = {
+    id: 'emp-002',
+    officeName: 'ミナトマート株式会社',
+    officeAddress: '東京都新宿区西新宿2-2-2',
+    helloWorkOffice: '新宿公共職業安定所',
+  };
+  const emp3: Employer = {
+    id: 'emp-003',
+    officeName: '東京クイックデリバリー合同会社',
+    officeAddress: '東京都港区芝3-3-3',
+    helloWorkOffice: '品川公共職業安定所',
+  };
+  const emp4: Employer = {
+    id: 'emp-004',
+    officeName: 'グリーンホテル上野',
+    officeAddress: '東京都台東区上野4-4-4',
+    helloWorkOffice: '上野公共職業安定所',
+  };
+  for (const e of [emp1, emp2, emp3, emp4]) repo.insertEmployer(e);
 
   // ---- workers ----
   // 正常①: 留学・許可あり・週20h
@@ -69,48 +159,7 @@ export async function runSeed() {
     hasActivityPermit: false,
     designation: { workAllowed: true, weeklyCap: null },
   };
-  // 地雷①: 留学・許可あり・週40h（通常期→NG）
-  const wMine1: Worker = {
-    id: 'wkr-mine1',
-    nameRoman: 'TANAKA ICHIRO',
-    nameKana: 'タナカ イチロウ',
-    birthDate: '2001-01-01',
-    sex: '男',
-    nationality: 'フィリピン',
-    residenceStatus: '留学',
-    residenceUntil: d(100),
-    residenceCardNo: 'GH11223344IJ',
-    hasActivityPermit: true,
-  };
-  // 地雷②: 在留期限切れ
-  const wMine2: Worker = {
-    id: 'wkr-mine2',
-    nameRoman: 'PHAM THI HOAN',
-    nameKana: 'ファム ティ ホアン',
-    birthDate: '1999-07-22',
-    sex: '女',
-    nationality: 'ベトナム',
-    residenceStatus: '留学',
-    residenceUntil: d(-30), // 30日前に切れた
-    residenceCardNo: 'IJ55667788KL',
-    hasActivityPermit: true,
-  };
-  // 地雷③: 特定活動・就労不可
-  const wMine3: Worker = {
-    id: 'wkr-mine3',
-    nameRoman: 'SINGH RAHUL',
-    nameKana: 'シン ラフル',
-    birthDate: '1997-11-30',
-    sex: '男',
-    nationality: 'インド',
-    residenceStatus: '特定活動',
-    residenceUntil: d(90),
-    residenceCardNo: 'KL99001122MN',
-    hasActivityPermit: false,
-    designation: { workAllowed: false, weeklyCap: null },
-  };
-
-  for (const w of [w1, w2, w3, wMine1, wMine2, wMine3]) {
+  for (const w of [w1, w2, w3]) {
     repo.insertWorker(w);
   }
 
@@ -122,6 +171,30 @@ export async function runSeed() {
       passwordHash: hash('password'),
       role: 'employer',
       linkedEmployerId: emp1.id,
+      createdAt: NOW,
+    },
+    {
+      id: 'usr-emp-002',
+      email: 'mart@example.com',
+      passwordHash: hash('password'),
+      role: 'employer',
+      linkedEmployerId: emp2.id,
+      createdAt: NOW,
+    },
+    {
+      id: 'usr-emp-003',
+      email: 'delivery@example.com',
+      passwordHash: hash('password'),
+      role: 'employer',
+      linkedEmployerId: emp3.id,
+      createdAt: NOW,
+    },
+    {
+      id: 'usr-emp-004',
+      email: 'hotel@example.com',
+      passwordHash: hash('password'),
+      role: 'employer',
+      linkedEmployerId: emp4.id,
       createdAt: NOW,
     },
     {
@@ -157,7 +230,7 @@ export async function runSeed() {
     },
     {
       id: 'job-002',
-      employerId: emp1.id,
+      employerId: emp2.id,
       title: 'コンビニ店員',
       jobCategory: '小売',
       weeklyHours: 25,
@@ -168,7 +241,7 @@ export async function runSeed() {
     },
     {
       id: 'job-003',
-      employerId: emp1.id,
+      employerId: emp3.id,
       title: 'デリバリースタッフ',
       jobCategory: '配送',
       weeklyHours: 15,
@@ -180,11 +253,44 @@ export async function runSeed() {
     {
       id: 'job-004',
       employerId: emp1.id,
-      title: '週40h勤務（地雷求人）',
-      jobCategory: '事務',
-      weeklyHours: 40,
-      hourlyWage: 1300,
-      location: '東京都千代田区',
+      title: 'カフェスタッフ（キッチン補助）',
+      jobCategory: '飲食店',
+      weeklyHours: 18,
+      hourlyWage: 1150,
+      location: '東京都渋谷区',
+      status: 'open',
+      createdAt: NOW,
+    },
+    {
+      id: 'job-005',
+      employerId: emp2.id,
+      title: 'スーパー品出しスタッフ',
+      jobCategory: '小売',
+      weeklyHours: 16,
+      hourlyWage: 1120,
+      location: '東京都中野区',
+      status: 'open',
+      createdAt: NOW,
+    },
+    {
+      id: 'job-006',
+      employerId: emp4.id,
+      title: 'ホテル清掃スタッフ',
+      jobCategory: '清掃',
+      weeklyHours: 20,
+      hourlyWage: 1180,
+      location: '東京都台東区',
+      status: 'open',
+      createdAt: NOW,
+    },
+    {
+      id: 'job-007',
+      employerId: emp4.id,
+      title: '朝食会場スタッフ',
+      jobCategory: 'ホテル',
+      weeklyHours: 12,
+      hourlyWage: 1200,
+      location: '東京都台東区',
       status: 'open',
       createdAt: NOW,
     },
@@ -207,7 +313,7 @@ export async function runSeed() {
   const hireCompleted2: HireEvent = {
     id: 'hire-c002',
     workerId: w2.id,
-    employerId: emp1.id,
+    employerId: emp2.id,
     jobId: 'job-002',
     hireDate: d(-45),
     weeklyHours: 15,
@@ -229,45 +335,7 @@ export async function runSeed() {
     wage: 1100,
     status: 'pending',
   };
-  // 地雷ワーカー用pending（検証NG確認用）
-  const hireMine1: HireEvent = {
-    id: 'hire-mine1',
-    workerId: wMine1.id,
-    employerId: emp1.id,
-    jobId: 'job-004',
-    hireDate: TODAY,
-    weeklyHours: 40,
-    jobCategory: '事務',
-    inLongVacation: false,
-    wage: 1300,
-    status: 'pending',
-  };
-  const hireMine2: HireEvent = {
-    id: 'hire-mine2',
-    workerId: wMine2.id,
-    employerId: emp1.id,
-    jobId: 'job-001',
-    hireDate: TODAY,
-    weeklyHours: 20,
-    jobCategory: '飲食店',
-    inLongVacation: false,
-    wage: 1100,
-    status: 'pending',
-  };
-  const hireMine3: HireEvent = {
-    id: 'hire-mine3',
-    workerId: wMine3.id,
-    employerId: emp1.id,
-    jobId: 'job-002',
-    hireDate: TODAY,
-    weeklyHours: 20,
-    jobCategory: '小売',
-    inLongVacation: false,
-    wage: 1050,
-    status: 'pending',
-  };
-
-  for (const h of [hireCompleted1, hireCompleted2, hirePending, hireMine1, hireMine2, hireMine3]) {
+  for (const h of [hireCompleted1, hireCompleted2, hirePending]) {
     repo.insertHire(h);
   }
 
@@ -285,7 +353,7 @@ export async function runSeed() {
   repo.insertSubmission({
     id: 'sub-002',
     workerId: w2.id,
-    employerId: emp1.id,
+    employerId: emp2.id,
     formId: 'shiki3',
     receiptNo: `${d(-45).replace(/-/g, '')}-000001`,
     status: '受理',

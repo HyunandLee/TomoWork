@@ -46,27 +46,28 @@ export default function EmployerJobsPage() {
   }
 
   return (
-    <div className="page-body">
-      <div className="page-header flex-between">
+    <div className="page-body tw-page">
+      <div className="tw-hero">
         <div>
-          <h1>📋 求人管理</h1>
-          <p>求人の投稿・管理を行います</p>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Job Postings</div>
+          <h1>求人</h1>
+          <p>かんたん入力で公開し、応募から採用、書類生成までつなげます。</p>
         </div>
-        <button id="post-job-btn" className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
-          ＋ 求人を投稿
+        <button id="post-job-btn" className="btn btn-primary" onClick={() => setShowForm(!showForm)} style={{ background: '#fff', color: 'var(--tw-primary-dark)' }}>
+          ＋ 求人を作る
         </button>
       </div>
 
       {msg && <div className="alert alert-success mb">{msg}</div>}
 
       {showForm && (
-        <div className="card mb-lg">
-          <div className="card-title">📝 求人投稿</div>
+        <div className="card">
+          <div className="card-title">新しい求人を作る</div>
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
                 <label className="form-label">求人タイトル</label>
-                <input id="job-title" className="form-input" value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="例：カフェスタッフ（ホール）" required />
+                <input id="job-title" className="form-input" value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="例：カフェ ホールスタッフ" required />
               </div>
               <div className="form-group">
                 <label className="form-label">業務カテゴリ</label>
@@ -79,6 +80,7 @@ export default function EmployerJobsPage() {
                   <option>IT・エンジニア</option>
                   <option>製造</option>
                   <option>清掃</option>
+                  <option>ホテル</option>
                   <option>農業</option>
                 </select>
               </div>
@@ -101,7 +103,7 @@ export default function EmployerJobsPage() {
             <div className="flex gap-sm">
               <button id="job-submit-btn" type="submit" className="btn btn-primary" disabled={submitting}>
                 {submitting ? <span className="spinner" /> : null}
-                投稿する
+                公開する
               </button>
               <button type="button" className="btn btn-secondary" onClick={() => setShowForm(false)}>キャンセル</button>
             </div>
@@ -118,37 +120,35 @@ export default function EmployerJobsPage() {
           <p>「求人を投稿」ボタンから最初の求人を作成しましょう</p>
         </div>
       ) : (
-        <div className="card">
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>タイトル</th>
-                  <th>カテゴリ</th>
-                  <th>週時間</th>
-                  <th>時給</th>
-                  <th>勤務地</th>
-                  <th>状態</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jobs.map(j => (
-                  <tr key={j.id}>
-                    <td style={{ fontWeight: 600 }}>{j.title}</td>
-                    <td>{j.jobCategory}</td>
-                    <td>{j.weeklyHours}h</td>
-                    <td>¥{j.hourlyWage.toLocaleString()}</td>
-                    <td>{j.location}</td>
-                    <td>
-                      <span className={`badge ${j.status === 'open' ? 'badge-green' : 'badge-gray'}`}>
-                        {j.status === 'open' ? '公開中' : 'クローズ'}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="tw-card-grid">
+          {jobs.map(j => {
+            const pct = Math.min(100, Math.round((j.weeklyHours / 28) * 100));
+            return (
+              <div key={j.id} className="card">
+                <div className="tw-row-between" style={{ alignItems: 'flex-start', marginBottom: '.85rem' }}>
+                  <div>
+                    <div className="job-card-title">{j.title}</div>
+                    <div style={{ color: 'var(--tw-muted)', fontSize: '.86rem', fontWeight: 700 }}>{j.location}</div>
+                  </div>
+                  <span className={`tw-chip ${j.status === 'open' ? '' : 'tw-chip-plain'}`}>
+                    {j.status === 'open' ? '募集中' : '終了'}
+                  </span>
+                </div>
+                <div className="tw-chip-list" style={{ marginBottom: '1rem' }}>
+                  <span className="tw-chip">{j.jobCategory}</span>
+                  <span className="tw-chip tw-chip-coral">¥{j.hourlyWage.toLocaleString()}/h</span>
+                  <span className="tw-chip tw-chip-plain">書類自動作成</span>
+                </div>
+                <div>
+                  <div className="tw-row-between" style={{ fontSize: '.78rem', fontWeight: 800, color: j.weeklyHours > 28 ? 'var(--tw-coral)' : 'var(--tw-primary-dark)', marginBottom: '.35rem' }}>
+                    <span>週所定労働時間</span>
+                    <span>{j.weeklyHours}h</span>
+                  </div>
+                  <div className="tw-progress"><span style={{ width: `${pct}%`, background: j.weeklyHours > 28 ? 'var(--tw-coral)' : 'var(--tw-primary)' }} /></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

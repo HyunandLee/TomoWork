@@ -2,8 +2,22 @@
 import type { Application, HireEvent } from '@/lib/types';
 import { repo, now } from '@/lib/db/repo';
 import { genId } from '@/lib/util/id';
+import { validate } from '@/lib/rules/validate';
 
 export class JobError extends Error {}
+
+export interface EmployerApplicationView extends Application {
+  hireId?: string;
+  workerName: string;
+  workerNameKana: string;
+  workerNationality: string;
+  workerResidenceStatus: string;
+  jobTitle: string;
+  jobCategory: string;
+  weeklyHours: number;
+  hourlyWage: number;
+  location: string;
+}
 
 /** worker が求人に応募＝選択（applied）。 */
 export function applyToJob(jobId: string, workerId: string): Application {
@@ -28,8 +42,27 @@ export function applyToJob(jobId: string, workerId: string): Application {
   return app;
 }
 
-export function listApplicantsForEmployer(employerId: string): Application[] {
-  return repo.listApplicationsByEmployer(employerId);
+export function listApplicantsForEmployer(employerId: string): EmployerApplicationView[] {
+  const hires = repo.listHiresByEmployer(employerId);
+
+  return repo.listApplicationsByEmployer(employerId).map((app) => {
+    const worker = repo.getWorker(app.workerId);
+    const job = repo.getJob(app.jobId);
+    const hire = hires.find((h) => h.jobId === app.jobId && h.workerId === app.workerId);
+    return {
+      ...app,
+      hireId: hire?.id,
+      workerName: worker?.nameRoman ?? app.workerId,
+      workerNameKana: worker?.nameKana ?? app.workerId,
+      workerNationality: worker?.nationality ?? '—',
+      workerResidenceStatus: worker?.residenceStatus ?? '—',
+      jobTitle: job?.title ?? app.jobId,
+      jobCategory: job?.jobCategory ?? '—',
+      weeklyHours: job?.weeklyHours ?? 0,
+      hourlyWage: job?.hourlyWage ?? 0,
+      location: job?.location ?? '—',
+    };
+  });
 }
 
 export function listApplicationsForWorker(workerId: string): Application[] {
@@ -50,6 +83,20 @@ export function acceptApplication(
   const job = repo.getJob(app.jobId);
   if (!job) throw new JobError('求人が見つかりません');
   if (job.employerId !== employerId) throw new JobError('自社の求人ではありません');
+  const worker = repo.getWorker(app.workerId);
+  if (!worker) throw new JobError('労働者が見つかりません');
+  const hireDate = now().slice(0, 10);
+
+  const validation = validate(worker, {
+    weeklyHours: job.weeklyHours,
+    jobCategory: job.jobCategory,
+    inLongVacation: false,
+    hireDate,
+  });
+  if (!validation.ok) {
+    throw new JobError(`この応募は就労条件を満たしていないため採用できません: ${validation.reasonJa}`);
+  }
+
   if (app.status === 'accepted') {
     // すでに採用済みなら対応する hire を返す
     const existing = repo
@@ -65,7 +112,7 @@ export function acceptApplication(
     workerId: app.workerId,
     employerId,
     jobId: job.id,
-    hireDate: now().slice(0, 10),
+    hireDate,
     weeklyHours: job.weeklyHours,
     jobCategory: job.jobCategory,
     inLongVacation: false,

@@ -33,14 +33,27 @@ export default async function WorkerDashboard() {
 
   const completedHires = hires.filter(h => h.status === 'completed');
   const activeHires = hires.filter(h => h.status !== 'completed');
+  const weeklyUsed = activeHires.reduce((sum, h) => sum + h.weeklyHours, 0);
+  const weeklyCap = worker?.residenceStatus === '特定活動'
+    ? worker.designation?.weeklyCap ?? 40
+    : 28;
+  const weeklyPct = Math.min(100, Math.round((weeklyUsed / weeklyCap) * 100));
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>👷 ダッシュボード</h1>
-        {worker && (
-          <p>{worker.nameKana}（{worker.nameRoman}）— {worker.residenceStatus} / 在留期限: {worker.residenceUntil}</p>
-        )}
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>TunaWork Worker</div>
+          <h1><ruby>仕事<rt>しごと</rt></ruby></h1>
+          {worker && <p>{worker.nameRoman} / {worker.nationality} / 在留期限 {worker.residenceUntil}</p>}
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: '.78rem', opacity: .75, fontWeight: 700 }}>あなたの評価</div>
+          <div style={{ fontSize: '2rem', fontWeight: 800 }}>
+            {ratingSummary.count > 0 ? `${ratingSummary.averageStars.toFixed(1)} ★` : '—'}
+          </div>
+          <div style={{ fontSize: '.78rem', opacity: .75 }}>{ratingSummary.count}件</div>
+        </div>
       </div>
 
       <div className="stat-grid">
@@ -70,18 +83,30 @@ export default async function WorkerDashboard() {
       </div>
 
       {worker && (
-        <div className="card mb-lg">
-          <div className="card-title">🪪 在留情報</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '.75rem', fontSize: '.875rem' }}>
-            <div><span style={{ color: 'var(--gray-500)' }}>在留資格：</span><strong>{worker.residenceStatus}</strong></div>
-            <div><span style={{ color: 'var(--gray-500)' }}>在留期限：</span><strong>{worker.residenceUntil}</strong></div>
-            <div><span style={{ color: 'var(--gray-500)' }}>国籍：</span><strong>{worker.nationality}</strong></div>
-            <div><span style={{ color: 'var(--gray-500)' }}>資格外活動許可：</span>
-              <span className={`badge ${worker.hasActivityPermit ? 'badge-green' : 'badge-red'}`} style={{ marginLeft: '.25rem' }}>
-                {worker.hasActivityPermit ? '有' : '無'}
-              </span>
+        <div className="card">
+          <div className="tw-row-between" style={{ alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <div>
+              <div className="tw-kicker">在留資格チェック</div>
+              <h2 style={{ marginTop: '.15rem' }}><ruby>{worker.residenceStatus}<rt>ざいりゅうしかく</rt></ruby></h2>
             </div>
-            <div><span style={{ color: 'var(--gray-500)' }}>在留カード番号：</span><code style={{ fontSize: '.8rem' }}>{worker.residenceCardNo}</code></div>
+            <span className={`tw-chip ${worker.hasActivityPermit || worker.residenceStatus === '特定活動' ? '' : 'tw-chip-coral'}`}>
+              {worker.hasActivityPermit || worker.residenceStatus === '特定活動' ? '就労条件あり' : '許可なし'}
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+            <div>
+              <div style={{ fontSize: '.78rem', color: 'var(--tw-muted)', fontWeight: 800 }}>今週の予定時間</div>
+              <div className="tw-row-between" style={{ margin: '.25rem 0 .45rem' }}>
+                <strong>{weeklyUsed} / {weeklyCap}h</strong>
+                <span style={{ color: weeklyUsed > weeklyCap ? 'var(--tw-coral)' : 'var(--tw-primary-dark)', fontWeight: 800 }}>
+                  {weeklyUsed > weeklyCap ? '要確認' : 'OK'}
+                </span>
+              </div>
+              <div className="tw-progress"><span style={{ width: `${weeklyPct}%`, background: weeklyUsed > weeklyCap ? 'var(--tw-coral)' : 'var(--tw-primary)' }} /></div>
+            </div>
+            <div><span style={{ color: 'var(--tw-muted)' }}>在留カード番号</span><br /><strong>{worker.residenceCardNo}</strong></div>
+            <div><span style={{ color: 'var(--tw-muted)' }}>完了した仕事</span><br /><strong>{completedHires.length}件</strong></div>
+            <div><span style={{ color: 'var(--tw-muted)' }}>これからの仕事</span><br /><strong>{activeHires.length}件</strong></div>
           </div>
         </div>
       )}
@@ -118,17 +143,17 @@ export default async function WorkerDashboard() {
               ))}
             </div>
           )}
-          <Link href="/worker/earnings" className="btn btn-secondary btn-sm mt-sm">全件見る →</Link>
+          <Link href="/worker/earnings" className="btn btn-secondary btn-sm mt-sm">マイページで見る →</Link>
         </div>
       </div>
 
       <div className="card mt-lg">
-        <div className="card-title">🚀 クイックアクション</div>
-        <div className="flex gap" style={{ flexWrap: 'wrap' }}>
-          <Link href="/worker/jobs" className="btn btn-primary">🔍 バイト先を探す</Link>
-          <Link href="/worker/documents" className="btn btn-secondary">📄 自分の書類</Link>
-          <Link href="/worker/earnings" className="btn btn-secondary">💴 稼ぎを記録</Link>
-          <Link href="/worker/rate" className="btn btn-secondary">⭐ 雇用主を評価</Link>
+        <div className="card-title">次にすること</div>
+        <div className="tw-actions">
+          <Link href="/worker/jobs" className="btn btn-primary">バイト先を探す</Link>
+          <Link href="/worker/documents" className="btn btn-secondary">自分の書類</Link>
+          <Link href="/worker/earnings" className="btn btn-secondary">マイページ</Link>
+          <Link href="/worker/rate" className="btn btn-secondary">雇用主を評価</Link>
         </div>
       </div>
     </div>

@@ -12,10 +12,24 @@ export default async function WorkerDocumentsPage() {
   const submissions = repo.listSubmissionsByWorker(user.linkedWorkerId);
 
   return (
-    <div className="page-body">
-      <div className="page-header">
-        <h1>📄 自分の書類</h1>
-        <p>あなたについて提出された外国人雇用状況届出書（様式第3号）の一覧です</p>
+    <div className="page-body tw-page">
+      <div className="tw-hero">
+        <div>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Documents</div>
+          <h1><ruby>書類<rt>しょるい</rt></ruby></h1>
+          <p>ハローワークに出した書類を確認できます。</p>
+        </div>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>{submissions.length}件</span>
+      </div>
+
+      <div className="tw-soft-panel">
+        <div className="tw-row">
+          <span className="tw-avatar">守</span>
+          <div>
+            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>書類はアプリが自動作成</div>
+            <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>あなたは在留カード情報を確認するだけ。むずかしい手続きは雇用主とアプリで進めます。</div>
+          </div>
+        </div>
       </div>
 
       {submissions.length === 0 ? (
@@ -28,18 +42,19 @@ export default async function WorkerDocumentsPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {submissions.map(s => (
             <div key={s.id} className="card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '.5rem' }}>
+              <div className="tw-row-between" style={{ alignItems: 'flex-start', flexWrap: 'wrap' }}>
                 <div>
+                  <div className="tw-kicker">外国人雇用状況届出書</div>
                   <div style={{ fontWeight: 700, fontFamily: 'monospace', marginBottom: '.25rem' }}>{s.receiptNo}</div>
-                  <div style={{ fontSize: '.85rem', color: 'var(--gray-500)' }}>
+                  <div style={{ fontSize: '.85rem', color: 'var(--tw-muted)' }}>
                     提出先: {s.employerId} / 提出日: {s.createdAt.slice(0, 10)}
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}>
-                  <span className={`badge ${s.formId === 'shiki3' ? 'badge-blue' : 'badge-gray'}`}>
+                <div className="tw-chip-list">
+                  <span className="tw-chip">
                     {s.formId === 'shiki3' ? '様式第3号' : s.formId}
                   </span>
-                  <span className="badge badge-green">{s.status}</span>
+                  <span className="tw-chip tw-chip-plain">{s.status}</span>
                 </div>
               </div>
               {s.payload && (

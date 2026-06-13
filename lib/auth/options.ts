@@ -7,6 +7,10 @@ import { repo } from '@/lib/db/repo';
 import type { SessionUser } from '@/lib/types';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret:
+    process.env.AUTH_SECRET ??
+    process.env.NEXTAUTH_SECRET ??
+    (process.env.NODE_ENV === 'production' ? undefined : 'tunawork-dev-secret'),
   providers: [
     Credentials({
       name: 'Credentials',
@@ -20,10 +24,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // 起動時にDBを初期化・シード（lazy initialization）
         try {
           const { getDb } = await import('@/lib/db/migrate');
-          const { runSeed } = await import('@/lib/seed');
+          const { runSeed, ensureDevSeedData } = await import('@/lib/seed');
           const db = getDb();
           const count = (db.prepare('SELECT COUNT(*) as c FROM users').get() as { c: number }).c;
           if (count === 0) await runSeed();
+          if (process.env.NODE_ENV !== 'production') ensureDevSeedData();
         } catch (e) {
           console.error('[auth] seed error:', e);
         }

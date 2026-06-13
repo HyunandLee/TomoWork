@@ -1,160 +1,139 @@
-'use client';
-import { useState, useEffect } from 'react';
-import type { Earning, HireEvent } from '@/lib/types';
+import { auth } from '@/lib/auth/options';
+import { redirect } from 'next/navigation';
+import { repo } from '@/lib/db/repo';
+import { workerRatingSummary } from '@/lib/ratings/ratings';
+import type { Earning, SessionUser } from '@/lib/types';
 
-export default function WorkerEarningsPage() {
-  const [earnings, setEarnings] = useState<Earning[]>([]);
-  const [total, setTotal] = useState(0);
-  const [hires, setHires] = useState<HireEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ hireId: '', amount: 0, workedOn: new Date().toISOString().slice(0, 10) });
-  const [submitting, setSubmitting] = useState(false);
-  const [msg, setMsg] = useState('');
+function monthLabel(month: string): string {
+  const [, m] = month.split('-');
+  return `${Number(m)}月`;
+}
 
-  useEffect(() => {
-    fetch('/api/earnings').then(r => r.json()).then(d => {
-      if (d.ok) { setEarnings(d.data.items); setTotal(d.data.total); }
-      setLoading(false);
-    });
-  }, []);
-
-  async function handleRecord(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitting(true);
-    const res = await fetch('/api/earnings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ hireId: form.hireId, amount: Number(form.amount), workedOn: form.workedOn }),
-    });
-    const data = await res.json();
-    setSubmitting(false);
-    if (data.ok) {
-      setEarnings(prev => [data.data, ...prev]);
-      setTotal(prev => prev + data.data.amount);
-      setShowForm(false);
-      setMsg('稼ぎを記録しました！');
-      setTimeout(() => setMsg(''), 3000);
-    } else {
-      setMsg(`エラー: ${data.error}`);
-    }
+function groupByMonth(earnings: Earning[]) {
+  const map = new Map<string, number>();
+  for (const earning of earnings) {
+    const key = earning.workedOn.slice(0, 7);
+    map.set(key, (map.get(key) ?? 0) + earning.amount);
   }
+  return Array.from(map.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-6)
+    .map(([month, amount]) => ({ month, amount }));
+}
+
+export default async function WorkerEarningsPage() {
+  const session = await auth();
+  if (!session?.user) redirect('/login');
+  const user = session.user as unknown as SessionUser;
+  if (!user.linkedWorkerId) redirect('/login');
+
+  const worker = repo.getWorker(user.linkedWorkerId);
+  const earnings = repo.listEarningsByWorker(user.linkedWorkerId);
+  const total = repo.sumEarningsByWorker(user.linkedWorkerId);
+  const rating = workerRatingSummary(user.linkedWorkerId);
+  const monthly = groupByMonth(earnings);
+  const maxMonthly = Math.max(1, ...monthly.map((item) => item.amount));
 
   return (
-    <div className="page-body">
-      <div className="page-header flex-between">
+    <div className="page-body tw-page">
+      <div className="tw-hero">
         <div>
-          <h1>💴 稼ぎ記録</h1>
-          <p>就労ごとの稼ぎを記録・管理します</p>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>My Page</div>
+          <h1>マイページ</h1>
+          <p>評価、稼ぎ、提出済みデータを確認できます。</p>
         </div>
-        <button id="record-earning-btn" className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
-          ＋ 稼ぎを記録
-        </button>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>自動反映</span>
       </div>
 
-      {msg && <div className="alert alert-success mb">{msg}</div>}
-
-      <div className="stat-grid mb-lg">
-        <div className="stat-card green">
-          <div className="stat-label">総稼ぎ額</div>
-          <div className="stat-value">¥{total.toLocaleString()}</div>
-        </div>
-        <div className="stat-card blue">
-          <div className="stat-label">記録件数</div>
-          <div className="stat-value">{earnings.length}</div>
+      <div className="card">
+        <div className="tw-row-between" style={{ alignItems: 'flex-end' }}>
+          <div className="tw-row">
+            <span className="tw-avatar" style={{ width: 64, height: 64, fontSize: '1.35rem' }}>
+              {worker?.nameKana.slice(0, 1) ?? '人'}
+            </span>
+            <div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                {worker?.nameRoman ?? 'Worker'} <span style={{ color: 'var(--tw-muted)', fontSize: '.9rem' }}>（{worker?.nameKana ?? '—'}）</span>
+              </div>
+              <div style={{ color: 'var(--tw-muted)', fontWeight: 700, fontSize: '.86rem' }}>
+                {worker?.nationality ?? '—'} / {worker?.residenceStatus ?? '—'}
+              </div>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div className="tw-stars">{rating.count > 0 ? `★ ${rating.averageStars.toFixed(1)}` : '★ —'}</div>
+            <div style={{ color: 'var(--tw-muted)', fontSize: '.75rem', fontWeight: 800 }}>{rating.count}件の評価</div>
+          </div>
         </div>
       </div>
 
-      {showForm && (
-        <div className="card mb-lg">
-          <div className="card-title">💰 稼ぎを記録</div>
-          <form onSubmit={handleRecord}>
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">就労ID (Hire ID)</label>
-                <input
-                  id="earning-hire-id"
-                  className="form-input"
-                  value={form.hireId}
-                  onChange={e => setForm({...form, hireId: e.target.value})}
-                  placeholder="例: hire-c001"
-                  required
-                />
-                <div className="form-hint">採用された就労のIDを入力してください</div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">勤務日</label>
-                <input
-                  id="earning-worked-on"
-                  type="date"
-                  className="form-input"
-                  value={form.workedOn}
-                  onChange={e => setForm({...form, workedOn: e.target.value})}
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">稼ぎ額（円）</label>
-              <input
-                id="earning-amount"
-                type="number"
-                className="form-input"
-                value={form.amount || ''}
-                onChange={e => setForm({...form, amount: Number(e.target.value)})}
-                placeholder="例: 22000"
-                min={1}
-                required
-              />
-            </div>
-            <div className="flex gap-sm">
-              <button id="earning-submit-btn" type="submit" className="btn btn-primary" disabled={submitting}>
-                {submitting ? <span className="spinner" /> : null}
-                記録する
-              </button>
-              <button type="button" className="btn btn-secondary" onClick={() => setShowForm(false)}>キャンセル</button>
-            </div>
-          </form>
+      <div className="card" style={{ background: 'var(--tw-primary)', color: '#fff', border: 'none' }}>
+        <div style={{ opacity: .86, fontWeight: 800, fontSize: '.8rem' }}>これまで ぜんぶ</div>
+        <div style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.15 }}>¥{total.toLocaleString()}</div>
+        <div style={{ opacity: .8, fontWeight: 700, fontSize: '.85rem', marginTop: '.35rem' }}>
+          雇用主の書類提出・就労データから反映
         </div>
-      )}
+      </div>
 
-      {loading ? (
-        <div className="text-center"><span className="spinner" /></div>
-      ) : earnings.length === 0 ? (
+      <div className="tw-soft-panel">
+        <div className="tw-row">
+          <span className="tw-avatar">¥</span>
+          <div>
+            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>自分では編集できません</div>
+            <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>
+              給与は、雇用主が提出した様式第3号と就労条件（時給・週時間）をもとに反映されます。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">月ごとの稼ぎ</div>
+        {monthly.length === 0 ? (
+          <p className="text-sm text-muted">提出後にグラフが表示されます</p>
+        ) : (
+          <div className="salary-chart" aria-label="月ごとの稼ぎグラフ">
+            {monthly.map((item) => (
+              <div key={item.month} className="salary-bar-row">
+                <div className="salary-bar-label">{monthLabel(item.month)}</div>
+                <div className="salary-bar-track">
+                  <span style={{ width: `${Math.max(8, Math.round((item.amount / maxMonthly) * 100))}%` }} />
+                </div>
+                <div className="salary-bar-value">¥{item.amount.toLocaleString()}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {earnings.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">💴</div>
+          <div className="empty-state-icon">¥</div>
           <h3>稼ぎ記録がありません</h3>
-          <p>「稼ぎを記録」ボタンから追加しましょう</p>
+          <p>雇用主が書類を提出すると、ここに自動で反映されます</p>
         </div>
       ) : (
-        <div className="card">
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>勤務日</th>
-                  <th>就労ID</th>
-                  <th>稼ぎ額</th>
-                  <th>記録日時</th>
-                </tr>
-              </thead>
-              <tbody>
-                {earnings.map(e => (
-                  <tr key={e.id}>
-                    <td style={{ fontWeight: 600 }}>{e.workedOn}</td>
-                    <td style={{ fontFamily: 'monospace', fontSize: '.82rem' }}>{e.hireId}</td>
-                    <td style={{ color: 'var(--green)', fontWeight: 700 }}>¥{e.amount.toLocaleString()}</td>
-                    <td style={{ fontSize: '.82rem' }}>{e.createdAt.slice(0, 10)}</td>
-                  </tr>
-                ))}
-                <tr>
-                  <td colSpan={2} style={{ textAlign: 'right', fontWeight: 600, paddingRight: '1rem' }}>合計</td>
-                  <td style={{ color: 'var(--green)', fontWeight: 700, fontSize: '1.1rem' }}>¥{total.toLocaleString()}</td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+          {earnings.map((earning) => {
+            const hire = repo.getHire(earning.hireId);
+            const employer = hire ? repo.getEmployer(hire.employerId) : undefined;
+            return (
+              <div key={earning.id} className="card">
+                <div className="tw-row-between">
+                  <div>
+                    <div style={{ fontWeight: 800 }}>{earning.workedOn.slice(0, 7)} 分</div>
+                    <div style={{ color: 'var(--tw-muted)', fontSize: '.8rem' }}>
+                      {employer?.officeName ?? '雇用主'} / {hire?.jobCategory ?? earning.hireId}
+                    </div>
+                  </div>
+                  <div style={{ color: 'var(--tw-primary-dark)', fontSize: '1.15rem', fontWeight: 800 }}>+¥{earning.amount.toLocaleString()}</div>
+                </div>
+                <div style={{ color: 'var(--tw-muted)', fontSize: '.78rem', marginTop: '.35rem' }}>
+                  提出データ由来 / hire: {earning.hireId}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

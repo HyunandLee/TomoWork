@@ -65,12 +65,6 @@ export type GetMyDocumentsRes = ApiRes<Submission[]>;
 
 // ---- /api/earnings ----
 export type GetEarningsRes = ApiRes<{ items: Earning[]; total: number }>;
-export interface PostEarningBody {
-  hireId: string;
-  amount: number;
-  workedOn: string;
-}
-export type PostEarningRes = ApiRes<Earning>;
 
 // ---- /api/ratings ----
 export interface PostRatingBody {

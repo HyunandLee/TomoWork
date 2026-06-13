@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getSessionUser, ok, err } from '@/lib/api/helpers';
 import { ensureRole } from '@/lib/auth/guards';
-import { listOpenJobs, createJob } from '@/lib/jobs/postings';
+import { listOpenJobViews, createJob } from '@/lib/jobs/postings';
 import { repo } from '@/lib/db/repo';
 import type { PostJobBody } from '@/lib/api/contracts';
 
@@ -13,7 +13,7 @@ export async function GET() {
     return ok(repo.listJobsByEmployer(user.linkedEmployerId));
   }
   // worker / admin: open のみ
-  return ok(listOpenJobs());
+  return ok(listOpenJobViews());
 }
 
 export async function POST(req: NextRequest) {
