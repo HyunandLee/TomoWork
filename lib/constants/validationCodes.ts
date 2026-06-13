@@ -1,0 +1,12 @@
+// 検証コードの単一ソース。
+export const VALIDATION_CODES = {
+  OK: 'OK',
+  EXPIRED: 'EXPIRED',
+  PROHIBITED_JOB: 'PROHIBITED_JOB',
+  NO_PERMIT: 'NO_PERMIT',
+  HOURS_EXCEEDED: 'HOURS_EXCEEDED',
+  DESIGNATION_NO_WORK: 'DESIGNATION_NO_WORK',
+  CARD_FORMAT: 'CARD_FORMAT',
+} as const;
+
+export type ValidationCode = (typeof VALIDATION_CODES)[keyof typeof VALIDATION_CODES];
