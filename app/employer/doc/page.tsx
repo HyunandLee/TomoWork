@@ -31,8 +31,9 @@ export default async function EmployerDocPage({
   const { hireId } = await searchParams;
 
   const allHires = repo.listHiresByEmployer(user.linkedEmployerId);
+  // 未提出（pending）に加え、提出済み（active）も対象にして月次の再提出を可能にする。
   const pendingHires = allHires
-    .filter(h => h.status === 'pending')
+    .filter(h => h.status !== 'completed')
     .filter((h) => {
       const worker = repo.getWorker(h.workerId);
       if (!worker) return false;

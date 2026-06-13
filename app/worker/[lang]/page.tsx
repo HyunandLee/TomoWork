@@ -30,6 +30,8 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
 
   const dict = await getDictionary(lang as Locale);
   const d = dict.dashboard;
+  const dn = dict.notifications;
+  const dr = dict.review;
 
   const worker = repo.getWorker(user.linkedWorkerId);
   const hires = repo.listHiresByWorker(user.linkedWorkerId);
@@ -38,6 +40,11 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
   const totalEarnings = repo.sumEarningsByWorker(user.linkedWorkerId);
   const ratingSummary = workerRatingSummary(user.linkedWorkerId);
   const applications = repo.listApplicationsByWorker(user.linkedWorkerId);
+  const unreadNotifications = repo.countUnreadNotifications(user.linkedWorkerId);
+  // 書類提出後（active 以降）で、まだ評価していない就労はレビュー対象。
+  const reviewableHires = hires.filter(
+    (h) => (h.status === 'active' || h.status === 'completed') && !repo.getRating(h.id, 'worker'),
+  );
 
   const completedHires = hires.filter(h => h.status === 'completed');
   const activeHires = hires.filter(h => h.status !== 'completed');
@@ -56,6 +63,26 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
           {worker && <p>{worker.nameRoman} / {worker.nationality} / 在留期限 {worker.residenceUntil}</p>}
         </div>
         <div style={{ textAlign: 'right' }}>
+          <Link
+            href={`/worker/${lang}/notifications`}
+            aria-label={dn.bell}
+            style={{
+              position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: 999, background: 'rgba(255,255,255,.16)',
+              color: '#fff', fontSize: '1.2rem', textDecoration: 'none', marginBottom: '.5rem',
+            }}
+          >
+            🔔
+            {unreadNotifications > 0 && (
+              <span style={{
+                position: 'absolute', top: -4, right: -4, minWidth: 18, height: 18, padding: '0 4px',
+                borderRadius: 999, background: 'var(--tw-coral, #f97316)', color: '#fff',
+                fontSize: '.68rem', fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {unreadNotifications}
+              </span>
+            )}
+          </Link>
           <div style={{ fontSize: '.78rem', opacity: .75, fontWeight: 700 }}>{d.your_rating}</div>
           <div style={{ fontSize: '2rem', fontWeight: 800 }}>
             {ratingSummary.count > 0 ? `${ratingSummary.averageStars.toFixed(1)} ★` : '—'}
@@ -64,15 +91,28 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
         </div>
       </div>
 
+      {reviewableHires.length > 0 && (
+        <Link href={`/worker/${lang}/rate`} className="tw-soft-panel" style={{ display: 'block', textDecoration: 'none' }}>
+          <div className="tw-row">
+            <span className="tw-avatar">★</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>{dr.banner_title}</div>
+              <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>{dr.banner_desc}</div>
+            </div>
+            <span className="tw-chip" style={{ background: 'var(--tw-primary)', color: '#fff' }}>{dr.cta}</span>
+          </div>
+        </Link>
+      )}
+
       <div className="stat-grid">
-        <div className="stat-card blue">
+        <Link href={`/worker/${lang}/applications?status=applied`} className="stat-card blue" style={{ textDecoration: 'none', cursor: 'pointer' }}>
           <div className="stat-label">{d.stats.pending_apps}</div>
           <div className="stat-value">{applications.filter(a => a.status === 'applied').length}</div>
-        </div>
-        <div className="stat-card navy">
+        </Link>
+        <Link href={`/worker/${lang}/applications?status=accepted`} className="stat-card navy" style={{ textDecoration: 'none', cursor: 'pointer' }}>
           <div className="stat-label">{d.stats.accepted}</div>
           <div className="stat-value">{applications.filter(a => a.status === 'accepted').length}</div>
-        </div>
+        </Link>
         <div className="stat-card green">
           <div className="stat-label">{d.stats.documents}</div>
           <div className="stat-value">{submissions.length}</div>

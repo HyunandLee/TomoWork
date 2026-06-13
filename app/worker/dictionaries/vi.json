@@ -196,6 +196,59 @@
     "errors": {
       "select_stars": "Vui lòng chọn số sao",
       "prefix": "Lỗi: "
+    },
+    "pending": {
+      "title": "Công việc chờ bạn đánh giá",
+      "desc": "Nhà tuyển dụng đã nộp hồ sơ. Chạm để đánh giá bằng sao.",
+      "select": "Đánh giá công việc này",
+      "month_suffix": " làm việc",
+      "rated": "Đã đánh giá"
     }
+  },
+  "notifications": {
+    "kicker": "Notifications",
+    "title": "Thông báo",
+    "description": "Cập nhật lương và yêu cầu đánh giá sẽ xuất hiện ở đây.",
+    "empty": "Không có thông báo",
+    "unread_suffix": " chưa đọc",
+    "mark_all_read": "Đánh dấu tất cả đã đọc",
+    "view_all": "Xem thông báo →",
+    "bell": "Thông báo",
+    "salary_updated": {
+      "title": "Lương của bạn đã được cập nhật",
+      "body": "Lương tháng {month} từ {employer} đã được cập nhật thành ¥{amount}."
+    },
+    "review_request": {
+      "title": "Yêu cầu đánh giá",
+      "body": "{employer} đã nộp hồ sơ. Vui lòng đánh giá công việc tháng này.",
+      "cta": "Viết đánh giá"
+    }
+  },
+  "applications": {
+    "kicker": "My Applications",
+    "title": "Trạng thái nộp đơn",
+    "description": "Xem các công việc đã nộp đơn và đã được tuyển trong một danh sách.",
+    "tabs": {
+      "all": "Tất cả",
+      "applied": "Đã nộp đơn",
+      "accepted": "Đã tuyển",
+      "rejected": "Không được tuyển"
+    },
+    "status": {
+      "applied": "Đã nộp đơn",
+      "accepted": "Đã tuyển",
+      "rejected": "Không được tuyển"
+    },
+    "applied_on": "Ngày nộp: ",
+    "weekly_hours": "Số giờ/tuần",
+    "hourly_wage": "Lương giờ",
+    "empty": "Không có đơn nào trong danh mục này",
+    "back": "← Quay lại việc làm"
+  },
+  "review": {
+    "kicker": "Review",
+    "banner_title": "Đánh giá công việc tháng này",
+    "banner_desc": "Nhà tuyển dụng đã nộp hồ sơ. Vui lòng đánh giá bằng sao.",
+    "cta": "Viết đánh giá"
   }
 }

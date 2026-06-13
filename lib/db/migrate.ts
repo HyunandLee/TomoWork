@@ -33,6 +33,7 @@ export function getDb(): Database.Database {
 /** スキーマを全削除して作り直す（reset 用）。 */
 export function resetSchema(db: Database.Database) {
   const tables = [
+    'notifications',
     'earnings',
     'ratings',
     'submissions',

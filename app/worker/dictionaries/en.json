@@ -196,6 +196,59 @@
     "errors": {
       "select_stars": "Please select a star rating",
       "prefix": "Error: "
+    },
+    "pending": {
+      "title": "Jobs awaiting your review",
+      "desc": "These employers have submitted documents. Tap to rate with stars.",
+      "select": "Rate this job",
+      "month_suffix": " work",
+      "rated": "Reviewed"
     }
+  },
+  "notifications": {
+    "kicker": "Notifications",
+    "title": "Notifications",
+    "description": "Salary updates and review requests arrive here.",
+    "empty": "No notifications",
+    "unread_suffix": " unread",
+    "mark_all_read": "Mark all as read",
+    "view_all": "View notifications →",
+    "bell": "Notifications",
+    "salary_updated": {
+      "title": "Your salary was updated",
+      "body": "Your {month} salary from {employer} was updated to ¥{amount}."
+    },
+    "review_request": {
+      "title": "Review request",
+      "body": "{employer} submitted documents. Please rate this month's work.",
+      "cta": "Write a review"
+    }
+  },
+  "applications": {
+    "kicker": "My Applications",
+    "title": "Application Status",
+    "description": "See your applied and hired jobs in one list.",
+    "tabs": {
+      "all": "All",
+      "applied": "Applied",
+      "accepted": "Hired",
+      "rejected": "Not hired"
+    },
+    "status": {
+      "applied": "Applied",
+      "accepted": "Hired",
+      "rejected": "Not hired"
+    },
+    "applied_on": "Applied on: ",
+    "weekly_hours": "Weekly hours",
+    "hourly_wage": "Hourly wage",
+    "empty": "No applications in this category",
+    "back": "← Back to jobs"
+  },
+  "review": {
+    "kicker": "Review",
+    "banner_title": "Review this month's work",
+    "banner_desc": "Your employer submitted documents. Please rate them with stars.",
+    "cta": "Write a review"
   }
 }

@@ -196,6 +196,59 @@
     "errors": {
       "select_stars": "星を えらんで ください",
       "prefix": "エラー: "
+    },
+    "pending": {
+      "title": "レビュー待ちのしごと",
+      "desc": "雇用主が書類を提出したしごとです。タップして星で評価できます。",
+      "select": "このしごとを評価する",
+      "month_suffix": " の働き",
+      "rated": "評価ずみ"
     }
+  },
+  "notifications": {
+    "kicker": "Notifications",
+    "title": "おしらせ",
+    "description": "給料の更新やレビューのお願いがここに届きます。",
+    "empty": "おしらせはありません",
+    "unread_suffix": " 件の未読",
+    "mark_all_read": "すべて既読にする",
+    "view_all": "おしらせを見る →",
+    "bell": "おしらせ",
+    "salary_updated": {
+      "title": "給料が更新されました",
+      "body": "{employer} の {month} の給料が ¥{amount} に更新されました。"
+    },
+    "review_request": {
+      "title": "レビューのお願い",
+      "body": "{employer} が書類を提出しました。今月の働きを評価してください。",
+      "cta": "レビューする"
+    }
+  },
+  "applications": {
+    "kicker": "My Applications",
+    "title": "応募の状況",
+    "description": "応募中・採用済みのしごとを一覧で確認できます。",
+    "tabs": {
+      "all": "すべて",
+      "applied": "応募中",
+      "accepted": "採用済み",
+      "rejected": "不採用"
+    },
+    "status": {
+      "applied": "応募中",
+      "accepted": "採用済み",
+      "rejected": "不採用"
+    },
+    "applied_on": "応募日: ",
+    "weekly_hours": "週の時間",
+    "hourly_wage": "時給",
+    "empty": "このカテゴリの応募はありません",
+    "back": "← しごとへ戻る"
+  },
+  "review": {
+    "kicker": "Review",
+    "banner_title": "今月の働きをレビューしましょう",
+    "banner_desc": "雇用主が書類を提出しました。お店を星で評価してください。",
+    "cta": "レビューする"
   }
 }

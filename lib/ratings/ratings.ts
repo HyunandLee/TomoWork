@@ -5,9 +5,13 @@ import { genId } from '@/lib/util/id';
 
 export class RatingError extends Error {}
 
-/** 純関数: 評価可能か（完了済み就労のみ）。 */
+/**
+ * 純関数: 評価可能か。
+ * 書類提出後（active）以降の就労を、今月の働きのレビュー対象とする。
+ * 未提出（pending）の就労はまだ評価できない。
+ */
 export function canRate(hire: Pick<HireEvent, 'status'>): boolean {
-  return hire.status === 'completed';
+  return hire.status === 'active' || hire.status === 'completed';
 }
 
 /** 純関数: 単純平均集計（伝播・重み付けなし）。 */

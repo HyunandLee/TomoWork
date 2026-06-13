@@ -9,6 +9,7 @@ import type {
   RatingSummary,
   Earning,
   ValidationResult,
+  WorkerNotification,
 } from '@/lib/types';
 
 // ---- 共通レスポンス ----
@@ -78,3 +79,10 @@ export type GetRatingsRes = ApiRes<RatingSummary>;
 
 // ---- /api/admin/reset ----
 export type PostResetRes = ApiRes<{ message: string }>;
+
+// ---- /api/notifications ----
+export interface NotificationView extends WorkerNotification {
+  employerName?: string;
+}
+export type GetNotificationsRes = ApiRes<{ items: NotificationView[]; unread: number }>;
+export type PostNotificationsReadRes = ApiRes<{ unread: number }>;

@@ -196,6 +196,59 @@
     "errors": {
       "select_stars": "Ji kerema xwe stêran hilbijêre",
       "prefix": "Xeletî: "
+    },
+    "pending": {
+      "title": "Karên li benda nirxandina te",
+      "desc": "Van kardêran belge şandine. Bitikîne da ku bi stêran nirxînî.",
+      "select": "Vî karî binirxîne",
+      "month_suffix": " xebat",
+      "rated": "Hate nirxandin"
     }
+  },
+  "notifications": {
+    "kicker": "Notifications",
+    "title": "Agahdarî",
+    "description": "Nûkirinên meaş û daxwazên nirxandinê li vir tên.",
+    "empty": "Tu agahdarî tune",
+    "unread_suffix": " nexwendî",
+    "mark_all_read": "Hemûyan wek xwendî nîşan bike",
+    "view_all": "Agahdariyan bibîne →",
+    "bell": "Agahdarî",
+    "salary_updated": {
+      "title": "Meaşê te hate nûkirin",
+      "body": "Meaşê meha {month} ji {employer} bo ¥{amount} hate nûkirin."
+    },
+    "review_request": {
+      "title": "Daxwaza nirxandinê",
+      "body": "{employer} belge şand. Ji kerema xwe xebata vê mehê binirxîne.",
+      "cta": "Nirxandinê binivîse"
+    }
+  },
+  "applications": {
+    "kicker": "My Applications",
+    "title": "Rewşa serlêdanê",
+    "description": "Karên ku te serlêdan kirine û yên hatine pejirandin di lîsteyek de bibîne.",
+    "tabs": {
+      "all": "Hemû",
+      "applied": "Serlêdan kirin",
+      "accepted": "Hate pejirandin",
+      "rejected": "Nehate pejirandin"
+    },
+    "status": {
+      "applied": "Serlêdan kirin",
+      "accepted": "Hate pejirandin",
+      "rejected": "Nehate pejirandin"
+    },
+    "applied_on": "Dîroka serlêdanê: ",
+    "weekly_hours": "Saetên hefteyî",
+    "hourly_wage": "Meaşê saetê",
+    "empty": "Di vê kategoriyê de tu serlêdan tune",
+    "back": "← Vegere karan"
+  },
+  "review": {
+    "kicker": "Review",
+    "banner_title": "Xebata vê mehê binirxîne",
+    "banner_desc": "Kardêrê te belge şand. Ji kerema xwe bi stêran binirxîne.",
+    "cta": "Nirxandinê binivîse"
   }
 }

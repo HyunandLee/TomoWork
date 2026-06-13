@@ -133,6 +133,23 @@ export interface Earning {
   createdAt: string;
 }
 
+export type NotificationType = 'salary_updated' | 'review_request';
+
+/** 労働者アプリ向けの通知。表示文言は type＋データから多言語で描画する。 */
+export interface WorkerNotification {
+  id: string;
+  workerId: string;
+  type: NotificationType;
+  hireId?: string;
+  employerId?: string;
+  /** salary_updated のとき：更新後の当月金額 */
+  amount?: number;
+  /** 対象の年月（YYYY-MM） */
+  month?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
 /** 検証に必要な雇用イベントの入力（hire 全体を要求しない軽量版） */
 export interface HireInput {
   weeklyHours: number;

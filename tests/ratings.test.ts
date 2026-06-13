@@ -12,8 +12,8 @@ describe('canRate()', () => {
   it('status=pending → false', () => {
     expect(canRate({ status: 'pending' })).toBe(false);
   });
-  it('status=active → false', () => {
-    expect(canRate({ status: 'active' })).toBe(false);
+  it('status=active → true（書類提出後は今月の働きをレビュー可能）', () => {
+    expect(canRate({ status: 'active' })).toBe(true);
   });
 });
 

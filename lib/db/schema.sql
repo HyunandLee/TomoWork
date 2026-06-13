@@ -94,3 +94,16 @@ CREATE TABLE IF NOT EXISTS earnings (
   worked_on  TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+
+-- 労働者アプリの通知（給料更新・レビュー依頼）。type+データから多言語で描画する。
+CREATE TABLE IF NOT EXISTS notifications (
+  id         TEXT PRIMARY KEY,
+  worker_id  TEXT NOT NULL REFERENCES workers(id),
+  type       TEXT NOT NULL CHECK (type IN ('salary_updated','review_request')),
+  hire_id    TEXT REFERENCES hire_events(id),
+  employer_id TEXT REFERENCES employers(id),
+  amount     INTEGER,
+  month      TEXT,
+  is_read    INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL
+);

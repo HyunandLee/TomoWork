@@ -1,5 +1,5 @@
 // 提出シミュレーション。OK時のみ提出 → 受付番号＋受理日時を返す。
-import type { Worker, Employer, HireEvent, Submission, HireInput, Earning } from '@/lib/types';
+import type { Worker, Employer, HireEvent, Submission, HireInput, Earning, WorkerNotification } from '@/lib/types';
 import { repo, now } from '@/lib/db/repo';
 import { genId } from '@/lib/util/id';
 import { validate } from '@/lib/rules/validate';
@@ -63,14 +63,16 @@ export function submitShiki3(hireId: string): Submission {
   };
   repo.insertSubmission(submission);
 
+  // ---- 月次給与の反映（提出した月の給与を upsert）----
+  // 各月ごとに提出するたびに、その月の給与が作成/更新される。
   if (hire.wage != null) {
-    const monthKey = hire.hireDate.slice(0, 7);
-    const alreadyReflected = repo
-      .listEarningsByWorker(worker.id)
-      .some((earning) => earning.hireId === hire.id && earning.workedOn.startsWith(monthKey));
+    const monthKey = submission.createdAt.slice(0, 7); // 提出月（YYYY-MM）
+    const monthlyEstimate = Math.round(hire.wage * hire.weeklyHours * 4.3);
+    const existing = repo.getEarningForHireMonth(hire.id, monthKey);
 
-    if (!alreadyReflected) {
-      const monthlyEstimate = Math.round(hire.wage * hire.weeklyHours * 4.3);
+    if (existing) {
+      repo.updateEarningAmount(existing.id, monthlyEstimate, now());
+    } else {
       const earning: Earning = {
         id: genId('earn'),
         workerId: worker.id,
@@ -81,7 +83,34 @@ export function submitShiki3(hireId: string): Submission {
       };
       repo.insertEarning(earning);
     }
+
+    // ① 給料更新の通知
+    const salaryNote: WorkerNotification = {
+      id: genId('ntf'),
+      workerId: worker.id,
+      type: 'salary_updated',
+      hireId: hire.id,
+      employerId: employer.id,
+      amount: monthlyEstimate,
+      month: monthKey,
+      isRead: false,
+      createdAt: now(),
+    };
+    repo.insertNotification(salaryNote);
   }
+
+  // ② レビュー依頼の通知（雇用者が書類提出 → 労働者に今月の働きの評価を促す）
+  const reviewNote: WorkerNotification = {
+    id: genId('ntf'),
+    workerId: worker.id,
+    type: 'review_request',
+    hireId: hire.id,
+    employerId: employer.id,
+    month: submission.createdAt.slice(0, 7),
+    isRead: false,
+    createdAt: now(),
+  };
+  repo.insertNotification(reviewNote);
 
   // 提出後は就労を active に（pending → active）。
   if (hire.status === 'pending') repo.setHireStatus(hire.id, 'active');

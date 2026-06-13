@@ -26,9 +26,36 @@ export default function DocClient({ pendingHires, selectedHireId, preview, submi
   const [localSubmitError, setLocalSubmitError] = useState(submitError ?? '');
   const [submitting, setSubmitting] = useState(false);
 
+  // 提出後の「今月の働き」レビュー（労働者を星評価）
+  const [reviewStars, setReviewStars] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewDone, setReviewDone] = useState(false);
+  const [reviewMsg, setReviewMsg] = useState('');
+
+  async function handleReview() {
+    if (!selectedHireId) return;
+    if (!reviewStars) { setReviewMsg('星を選択してください'); return; }
+    const res = await fetch('/api/ratings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hireId: selectedHireId, raterRole: 'employer', stars: reviewStars, comment: reviewComment }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      setReviewDone(true);
+      setReviewMsg('');
+    } else {
+      setReviewMsg(`エラー: ${data.error}`);
+    }
+  }
+
   function handleSelect(e: React.ChangeEvent<HTMLSelectElement>) {
     setSubmittedResult(undefined);
     setLocalSubmitError('');
+    setReviewStars(0);
+    setReviewComment('');
+    setReviewDone(false);
+    setReviewMsg('');
     router.push(e.target.value ? `/employer/doc?hireId=${e.target.value}` : '/employer/doc');
   }
 
@@ -85,7 +112,7 @@ export default function DocClient({ pendingHires, selectedHireId, preview, submi
             </option>
           ))}
         </select>
-        <div className="form-hint mt-sm">採用済みで提出待ちの就労だけを表示しています。</div>
+        <div className="form-hint mt-sm">採用済みの就労を表示しています。毎月の提出で、その月の給与が更新されます。</div>
       </div>
 
       {preview && (
@@ -168,6 +195,58 @@ export default function DocClient({ pendingHires, selectedHireId, preview, submi
             </div>
           </div>
           </div>
+        </div>
+      )}
+
+      {submittedResult && (
+        <div className="card mt-lg no-print">
+          <div className="card-title">今月の働きをレビュー</div>
+          <div className="form-hint mb">
+            提出が完了しました。{preview?.worker.nameRoman ? <strong>{preview.worker.nameRoman}</strong> : '労働者'} の今月の働きを星1〜5で評価してください。
+          </div>
+
+          {reviewMsg && <div className="alert alert-error mb">{reviewMsg}</div>}
+
+          {!reviewDone ? (
+            <>
+              <div className="form-group">
+                <label className="form-label">星1〜5</label>
+                <div className="stars">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      id={`doc-review-star-${n}`}
+                      className={`star ${reviewStars >= n ? 'filled' : ''}`}
+                      onClick={() => setReviewStars(n)}
+                      style={{ background: 'none', border: 'none', fontSize: '2rem', cursor: 'pointer', color: reviewStars >= n ? '#f59e0b' : 'var(--gray-300)' }}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">コメント（任意）</label>
+                <textarea
+                  className="form-textarea"
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  placeholder="今月の働きについてのコメント..."
+                />
+              </div>
+              <button id="doc-submit-review-btn" className="btn btn-primary" onClick={handleReview}>
+                レビューを送信
+              </button>
+            </>
+          ) : (
+            <div className="tw-soft-panel">
+              <div className="tw-row">
+                <span className="tw-avatar">済</span>
+                <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>レビューを送信しました（{reviewStars}星）</div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

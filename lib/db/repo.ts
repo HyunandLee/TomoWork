@@ -11,6 +11,7 @@ import type {
   Earning,
   Designation,
   Shift,
+  WorkerNotification,
 } from '@/lib/types';
 import { getDb } from './migrate';
 
@@ -125,6 +126,20 @@ function rowEarning(r: any): Earning {
     hireId: r.hire_id,
     amount: r.amount,
     workedOn: r.worked_on,
+    createdAt: r.created_at,
+  };
+}
+
+function rowNotification(r: any): WorkerNotification {
+  return {
+    id: r.id,
+    workerId: r.worker_id,
+    type: r.type,
+    hireId: r.hire_id ?? undefined,
+    employerId: r.employer_id ?? undefined,
+    amount: r.amount ?? undefined,
+    month: r.month ?? undefined,
+    isRead: !!r.is_read,
     createdAt: r.created_at,
   };
 }
@@ -381,6 +396,50 @@ export const repo = {
       .prepare(`SELECT COALESCE(SUM(amount),0) AS total FROM earnings WHERE worker_id = ?`)
       .get(workerId) as { total: number };
     return r.total;
+  },
+  /** 指定の就労×年月（YYYY-MM）の稼ぎ記録（月次給与の upsert 用）。 */
+  getEarningForHireMonth(hireId: string, month: string): Earning | undefined {
+    const r = getDb()
+      .prepare(`SELECT * FROM earnings WHERE hire_id = ? AND worked_on LIKE ? ORDER BY worked_on DESC`)
+      .get(hireId, month + '%');
+    return r ? rowEarning(r) : undefined;
+  },
+  updateEarningAmount(id: string, amount: number, createdAt: string) {
+    getDb()
+      .prepare(`UPDATE earnings SET amount = ?, created_at = ? WHERE id = ?`)
+      .run(amount, createdAt, id);
+  },
+
+  // ---- notifications（労働者アプリ）----
+  insertNotification(n: WorkerNotification) {
+    getDb()
+      .prepare(
+        `INSERT INTO notifications (id,worker_id,type,hire_id,employer_id,amount,month,is_read,created_at)
+         VALUES (@id,@workerId,@type,@hireId,@employerId,@amount,@month,@isRead,@createdAt)`,
+      )
+      .run({
+        ...n,
+        hireId: n.hireId ?? null,
+        employerId: n.employerId ?? null,
+        amount: n.amount ?? null,
+        month: n.month ?? null,
+        isRead: n.isRead ? 1 : 0,
+      });
+  },
+  listNotificationsByWorker(workerId: string): WorkerNotification[] {
+    return getDb()
+      .prepare(`SELECT * FROM notifications WHERE worker_id = ? ORDER BY created_at DESC`)
+      .all(workerId)
+      .map(rowNotification);
+  },
+  countUnreadNotifications(workerId: string): number {
+    const r = getDb()
+      .prepare(`SELECT COUNT(*) AS c FROM notifications WHERE worker_id = ? AND is_read = 0`)
+      .get(workerId) as { c: number };
+    return r.c;
+  },
+  markNotificationsRead(workerId: string) {
+    getDb().prepare(`UPDATE notifications SET is_read = 1 WHERE worker_id = ?`).run(workerId);
   },
 };
 
