@@ -1,0 +1,201 @@
+{
+  "lang": {
+    "ja": "やさしい日本語",
+    "en": "English",
+    "vi": "Tiếng Việt",
+    "ku": "Kurdî"
+  },
+  "brand": {
+    "tagline": "Flexible work for foreign nationals"
+  },
+  "nav": {
+    "search": "Search",
+    "jobs": "Jobs",
+    "consult": "Support",
+    "documents": "Docs",
+    "mypage": "My"
+  },
+  "dashboard": {
+    "kicker": "TunaWork Worker",
+    "title": "My Jobs",
+    "your_rating": "Your Rating",
+    "ratings_count": " reviews",
+    "stats": {
+      "pending_apps": "Applied",
+      "accepted": "Hired",
+      "documents": "Documents",
+      "total_earnings": "Total Earned",
+      "avg_rating": "Avg Rating",
+      "ratings_count": " reviews"
+    },
+    "residence": {
+      "kicker": "Residence Status Check",
+      "work_permit": "Work Permitted",
+      "no_permit": "No Permit",
+      "weekly_hours": "Scheduled hours this week",
+      "ok": "OK",
+      "over": "Review needed",
+      "card_no": "Residence Card No.",
+      "completed_jobs": "Completed jobs",
+      "upcoming_jobs": "Upcoming jobs",
+      "count": ""
+    },
+    "recent_docs": {
+      "title": "📁 Recent Documents",
+      "empty": "No documents yet",
+      "view_all": "View all →"
+    },
+    "recent_earnings": {
+      "title": "💴 Recent Earnings",
+      "empty": "No earnings recorded yet",
+      "view_all": "View in My Page →"
+    },
+    "actions": {
+      "title": "What to do next",
+      "find_job": "Find a job",
+      "documents": "My documents",
+      "mypage": "My page",
+      "rate": "Rate your employer"
+    }
+  },
+  "jobs": {
+    "kicker": "Worker App",
+    "title": "Find a Job",
+    "description": "Check the details in easy language and choose the job that suits you.",
+    "pending": "Applied",
+    "warning": {
+      "title": "Watch your weekly hours",
+      "desc": "Students and family stay visa holders are limited to 28 hours per week. This includes all jobs combined."
+    },
+    "search": {
+      "label": "Search by job or location",
+      "placeholder": "e.g. café, Shibuya, delivery"
+    },
+    "category": {
+      "label": "Category",
+      "all": "All"
+    },
+    "empty": "No job listings available",
+    "card": {
+      "default_employer": "Employer",
+      "weekly_hours": "Weekly hours",
+      "monthly_estimate": "Monthly estimate",
+      "auto_docs": "Docs auto-generated",
+      "apply": "Apply for this job",
+      "hours_cap_warning": "Check limit"
+    },
+    "status": {
+      "applied": "Applied",
+      "accepted": "Hired",
+      "rejected": "Not hired"
+    },
+    "messages": {
+      "apply_success": "Application sent! Wait for the employer's response.",
+      "error_prefix": "Error: "
+    }
+  },
+  "earnings": {
+    "kicker": "My Page",
+    "title": "My Page",
+    "description": "View your ratings, earnings, and submitted data.",
+    "auto_chip": "Auto-updated",
+    "total_label": "Total earnings",
+    "total_note": "Reflected from employer-submitted documents and work conditions",
+    "no_edit": {
+      "title": "You cannot edit this",
+      "desc": "Wages are reflected from Form 3 and the work conditions (hourly wage and weekly hours) submitted by the employer."
+    },
+    "chart": {
+      "title": "Monthly earnings",
+      "empty": "Chart will appear after submission",
+      "aria": "Monthly earnings chart"
+    },
+    "empty": {
+      "title": "No earnings recorded",
+      "desc": "When the employer submits documents, your earnings will appear here automatically."
+    },
+    "row": {
+      "month_suffix": "",
+      "source_note": "From submitted data",
+      "default_employer": "Employer",
+      "ratings_suffix": " reviews"
+    }
+  },
+  "documents": {
+    "kicker": "Documents",
+    "title": "Documents",
+    "description": "View documents submitted to Hello Work.",
+    "count_suffix": " docs",
+    "auto": {
+      "title": "Documents are created automatically",
+      "desc": "You only need to confirm your residence card details. The employer and app handle the complex procedures."
+    },
+    "empty": {
+      "title": "No documents yet",
+      "desc": "When the employer submits documents about you, they will appear here."
+    },
+    "card": {
+      "form_type": "Foreign Worker Employment Status Report",
+      "submitted_to": "Submitted to: ",
+      "submitted_on": "Submitted on: ",
+      "view_content": "View document contents",
+      "default_form": "Form 3"
+    }
+  },
+  "consult": {
+    "kicker": "Support",
+    "title": "Support",
+    "description": "Check your concerns in easy language.",
+    "secret_chip": "Private",
+    "free": {
+      "title": "Consultation and learning are free",
+      "desc": "Part of the shop's fee supports workers' life consultations and Japanese learning."
+    },
+    "section_title": "Do you have any concerns?",
+    "ai": {
+      "title": "Ask AI",
+      "desc": "Available 24 hours in easy language in production.",
+      "chip": "Now"
+    },
+    "human": {
+      "title": "Talk to a person",
+      "desc": "Booking with an expert and interpreter support is planned.",
+      "chip": "Book"
+    },
+    "topics_title": "Common concerns",
+    "topics": [
+      ["Visa & Residence", "Residence card, renewal, work hour limits"],
+      ["Tax & Money", "Salary, taxes, living costs"],
+      ["Hospital & Health", "Illness, injury, how to find a hospital"],
+      ["Work issues", "Workplace problems, language concerns"]
+    ]
+  },
+  "rate": {
+    "kicker": "Mutual Rating",
+    "title": "Rate",
+    "description": "Rate the employer from 1 to 5 stars. This builds mutual trust.",
+    "section_title": "How was the employer?",
+    "hire_id": {
+      "label": "Hire ID",
+      "placeholder": "e.g. hire-c001",
+      "hint": "Completed hire in seed data: "
+    },
+    "stars": {
+      "label": "1 to 5 stars",
+      "selected": "{n} star(s) selected"
+    },
+    "comment": {
+      "label": "Comment (optional)",
+      "placeholder": "e.g. they explained things carefully, would work there again"
+    },
+    "submit": "Submit rating",
+    "success": {
+      "title": "Rating submitted!",
+      "desc": "{n}★ — Thank you!"
+    },
+    "errors": {
+      "select_stars": "Please select a star rating",
+      "prefix": "Error: "
+    }
+  }
+}

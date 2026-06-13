@@ -809,6 +809,44 @@ ruby rt {
   font-weight: 700;
 }
 
+.worker-stage > .worker-brand {
+  width: 100%;
+  max-width: 390px;
+  justify-content: space-between;
+}
+
+.lang-switcher {
+  display: flex;
+  gap: .3rem;
+  align-items: center;
+}
+
+.lang-switcher a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 1.6rem;
+  padding: 0 .45rem;
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--tw-muted);
+  background: transparent;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+
+.lang-switcher a:hover {
+  background: rgba(0,0,0,.07);
+  color: var(--tw-ink);
+}
+
+.lang-switcher a.active {
+  background: var(--tw-primary);
+  color: #fff;
+}
+
 .ios-device {
   width: min(402px, calc(100vw - 24px));
   height: min(874px, calc(100vh - 118px));

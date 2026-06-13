@@ -2,17 +2,23 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import type { Dictionary } from '@/app/worker/dictionaries';
 
-const ITEMS = [
-  { href: '/worker/jobs', icon: '⌕', label: 'さがす' },
-  { href: '/worker', icon: '▣', label: 'しごと' },
-  { href: '/worker/consult', icon: '♡', label: 'そうだん' },
-  { href: '/worker/documents', icon: '□', label: 'しょるい' },
-  { href: '/worker/earnings', icon: '◉', label: 'マイ' },
-];
+type Props = {
+  lang: string;
+  nav: Dictionary['nav'];
+};
 
-export default function WorkerBottomNav() {
+export default function WorkerBottomNav({ lang, nav }: Props) {
   const pathname = usePathname();
+
+  const ITEMS = [
+    { href: `/worker/${lang}/jobs`, icon: '⌕', label: nav.search },
+    { href: `/worker/${lang}`, icon: '▣', label: nav.jobs },
+    { href: `/worker/${lang}/consult`, icon: '♡', label: nav.consult },
+    { href: `/worker/${lang}/documents`, icon: '□', label: nav.documents },
+    { href: `/worker/${lang}/earnings`, icon: '◉', label: nav.mypage },
+  ];
 
   return (
     <nav className="worker-bottom-nav" aria-label="worker navigation">

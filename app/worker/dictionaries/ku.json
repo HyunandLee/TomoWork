@@ -1,0 +1,201 @@
+{
+  "lang": {
+    "ja": "やさしい日本語",
+    "en": "English",
+    "vi": "Tiếng Việt",
+    "ku": "Kurdî"
+  },
+  "brand": {
+    "tagline": "Karên demkî ji bo biyanîyan"
+  },
+  "nav": {
+    "search": "Bigere",
+    "jobs": "Kar",
+    "consult": "Alîkarî",
+    "documents": "Belge",
+    "mypage": "Ez"
+  },
+  "dashboard": {
+    "kicker": "TunaWork Worker",
+    "title": "Karên min",
+    "your_rating": "Nirxandina te",
+    "ratings_count": " nirxandin",
+    "stats": {
+      "pending_apps": "Serlêdan kirin",
+      "accepted": "Hate pejirandin",
+      "documents": "Belgeyên şandî",
+      "total_earnings": "Tevahî dahat",
+      "avg_rating": "Nirxandina navîn",
+      "ratings_count": " nirxandin"
+    },
+    "residence": {
+      "kicker": "Kontrola destûra rûniştinê",
+      "work_permit": "Destûra kar heye",
+      "no_permit": "Destûr nîne",
+      "weekly_hours": "Saetên vê hefteyê",
+      "ok": "Baş e",
+      "over": "Divê were kontrol kirin",
+      "card_no": "Jimareya karta rûniştinê",
+      "completed_jobs": "Karên qediyayî",
+      "upcoming_jobs": "Karên pêşerojê",
+      "count": " kar"
+    },
+    "recent_docs": {
+      "title": "📁 Belgeyên dawî",
+      "empty": "Tu belge tune",
+      "view_all": "Hemûyan bibîne →"
+    },
+    "recent_earnings": {
+      "title": "💴 Dahatên dawî",
+      "empty": "Tu dahata tomarkirî tune",
+      "view_all": "Li rûpela min bibîne →"
+    },
+    "actions": {
+      "title": "Piştre çi bike",
+      "find_job": "Kar bibîne",
+      "documents": "Belgeyên min",
+      "mypage": "Rûpela min",
+      "rate": "Kardêrî nirxandin"
+    }
+  },
+  "jobs": {
+    "kicker": "Worker App",
+    "title": "Kar bibîne",
+    "description": "Naverokê bi zimanekî hêsan kontrol bike û karê guncan hilbijêre.",
+    "pending": "Serlêdan kirin",
+    "warning": {
+      "title": "Saetên hefteyî bide ber çavan",
+      "desc": "Xwendekar û xwediyên vîzaya malbatê bi 28 saetan di hefteyê de sînordar in. Ev ji bo hemû karan ligel hev tê hesibandin."
+    },
+    "search": {
+      "label": "Li kar an cih bigere",
+      "placeholder": "mînak: kafe, Shibuya, radestkirina kelûpelan"
+    },
+    "category": {
+      "label": "Kategorî",
+      "all": "Hemû"
+    },
+    "empty": "Tu daxuyaniya kar tune",
+    "card": {
+      "default_employer": "Kardêr",
+      "weekly_hours": "Saetên hefteyî",
+      "monthly_estimate": "Texmîna mehane",
+      "auto_docs": "Belge xweber tên çêkirin",
+      "apply": "Ji bo vî karî serlêdan bike",
+      "hours_cap_warning": "Sînorê kontrol bike"
+    },
+    "status": {
+      "applied": "Serlêdan kirin",
+      "accepted": "Hate pejirandin",
+      "rejected": "Nehate pejirandin"
+    },
+    "messages": {
+      "apply_success": "Serlêdan hat şandin! Bersiva kardêrî bisekine.",
+      "error_prefix": "Xeletî: "
+    }
+  },
+  "earnings": {
+    "kicker": "My Page",
+    "title": "Rûpela min",
+    "description": "Nirxandin, dahat û daneyên şandî bibîne.",
+    "auto_chip": "Xweber tê nûkirin",
+    "total_label": "Tevahî dahat",
+    "total_note": "Ji belgeyên kardêrî yên şandî û şertên kar tê xuyandin",
+    "no_edit": {
+      "title": "Tu nikarî vê biguhezî",
+      "desc": "Meaş ji Forma 3 û şertên kar (meaşê saetê û saetên hefteyî) yên kardêrî tê xuyandin."
+    },
+    "chart": {
+      "title": "Dahata mehane",
+      "empty": "Nexşe piştî şandinê dê xuya bibe",
+      "aria": "Nexşeya dahata mehane"
+    },
+    "empty": {
+      "title": "Tu dahata tomarkirî tune",
+      "desc": "Dema kardêr belgeyan bişîne, dahatên te dê li vir xweber xuya bibin."
+    },
+    "row": {
+      "month_suffix": "",
+      "source_note": "Ji daneyên şandî",
+      "default_employer": "Kardêr",
+      "ratings_suffix": " nirxandin"
+    }
+  },
+  "documents": {
+    "kicker": "Documents",
+    "title": "Belge",
+    "description": "Belgeyên şandî bo Hello Work bibîne.",
+    "count_suffix": " belge",
+    "auto": {
+      "title": "Belge xweber tên çêkirin",
+      "desc": "Tu tenê hewce ye agahiyên karta rûniştinê piştrast bikî. Kardêr û serîlêdanê pêvajoyên tevlihev birêve dibin."
+    },
+    "empty": {
+      "title": "Tu belge tune",
+      "desc": "Dema kardêr belgeyan di derbarê te de bişîne, ew ê li vir xuya bibin."
+    },
+    "card": {
+      "form_type": "Rapora rewşa kar a karkerên biyanî",
+      "submitted_to": "Şandiye: ",
+      "submitted_on": "Dîroka şandinê: ",
+      "view_content": "Naverokê bibîne",
+      "default_form": "Forma 3"
+    }
+  },
+  "consult": {
+    "kicker": "Support",
+    "title": "Alîkarî",
+    "description": "Pirsgirêkên xwe bi zimanekî hêsan kontrol bike.",
+    "secret_chip": "Veşartî",
+    "free": {
+      "title": "Şêwirmendî û fêrbûn belaş in",
+      "desc": "Beşek ji heqê dikanê piştgiriya şêwirmendiya jiyanê û hînbûna Japonî ji karkeran re dike."
+    },
+    "section_title": "Pirsgirêkek heye?",
+    "ai": {
+      "title": "Ji AI bipirse",
+      "desc": "Di guhertoya rastîn de 24 saet bi zimanekî hêsan bersiv dide.",
+      "chip": "Niha"
+    },
+    "human": {
+      "title": "Bi kesekî re bipeyive",
+      "desc": "Rezervasyon bi pisporek û piştgiriya wergerê tê pêşbînîkirin.",
+      "chip": "Rezervasyon"
+    },
+    "topics_title": "Pirsgirêkên gelemperî",
+    "topics": [
+      ["Vîze & Rûniştinê", "Karta rûniştinê, nûvekirin, sînorên saetên kar"],
+      ["Bac & Darayî", "Meaş, bacên dahatê, lêçûnên jiyanê"],
+      ["Nexweşxane & Tenduristî", "Nexweşî, birîn, çawa diçî nexweşxaneyê"],
+      ["Pirsgirêkên kar", "Dijwariyên cihê kar, astengiyên ziman"]
+    ]
+  },
+  "rate": {
+    "kicker": "Mutual Rating",
+    "title": "Nirxandin",
+    "description": "Kardêrî ji 1 heta 5 stêran nirxandin. Ev pêbaweriya hevbeş ava dike.",
+    "section_title": "Kardêr çawa bû?",
+    "hire_id": {
+      "label": "Koda pejirandinê (Hire ID)",
+      "placeholder": "mînak: hire-c001",
+      "hint": "Pejirandina qediyayî di daneyên nimûneyê de: "
+    },
+    "stars": {
+      "label": "1 heta 5 stêran",
+      "selected": "{n} stêr hate hilbijartin"
+    },
+    "comment": {
+      "label": "Şîrove (ne mecbûrî)",
+      "placeholder": "mînak: baş rave kir, dixwazim dîsa li wir bixebitem"
+    },
+    "submit": "Nirxandinê bişîne",
+    "success": {
+      "title": "Nirxandin hate şandin!",
+      "desc": "{n}★ — Spas!"
+    },
+    "errors": {
+      "select_stars": "Ji kerema xwe stêran hilbijêre",
+      "prefix": "Xeletî: "
+    }
+  }
+}

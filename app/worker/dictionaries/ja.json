@@ -1,0 +1,201 @@
+{
+  "lang": {
+    "ja": "やさしい日本語",
+    "en": "English",
+    "vi": "Tiếng Việt",
+    "ku": "Kurdî"
+  },
+  "brand": {
+    "tagline": "外国人のための スキマワーク"
+  },
+  "nav": {
+    "search": "さがす",
+    "jobs": "しごと",
+    "consult": "そうだん",
+    "documents": "しょるい",
+    "mypage": "マイ"
+  },
+  "dashboard": {
+    "kicker": "TunaWork Worker",
+    "title": "仕事",
+    "your_rating": "あなたの評価",
+    "ratings_count": "件",
+    "stats": {
+      "pending_apps": "応募中",
+      "accepted": "採用済み",
+      "documents": "提出書類数",
+      "total_earnings": "総稼ぎ額",
+      "avg_rating": "平均評価",
+      "ratings_count": "件の評価"
+    },
+    "residence": {
+      "kicker": "在留資格チェック",
+      "work_permit": "就労条件あり",
+      "no_permit": "許可なし",
+      "weekly_hours": "今週の予定時間",
+      "ok": "OK",
+      "over": "要確認",
+      "card_no": "在留カード番号",
+      "completed_jobs": "完了した仕事",
+      "upcoming_jobs": "これからの仕事",
+      "count": "件"
+    },
+    "recent_docs": {
+      "title": "📁 最近の書類",
+      "empty": "書類がありません",
+      "view_all": "全件見る →"
+    },
+    "recent_earnings": {
+      "title": "💴 最近の稼ぎ",
+      "empty": "稼ぎ記録がありません",
+      "view_all": "マイページで見る →"
+    },
+    "actions": {
+      "title": "次にすること",
+      "find_job": "バイト先を探す",
+      "documents": "自分の書類",
+      "mypage": "マイページ",
+      "rate": "雇用主を評価"
+    }
+  },
+  "jobs": {
+    "kicker": "Worker App",
+    "title": "仕事をさがす",
+    "description": "やさしい日本語で内容を確認して、はたらきたいバイト先を選べます。",
+    "pending": "応募中",
+    "warning": {
+      "title": "週労働時間に注意",
+      "desc": "留学・家族滞在の方は週28時間が上限です。複数の仕事をするときも合算されます。"
+    },
+    "search": {
+      "label": "しごと・場所でさがす",
+      "placeholder": "例：カフェ、渋谷、配送"
+    },
+    "category": {
+      "label": "カテゴリ",
+      "all": "すべて"
+    },
+    "empty": "公開中の求人がありません",
+    "card": {
+      "default_employer": "募集企業",
+      "weekly_hours": "週の時間",
+      "monthly_estimate": "月のめやす",
+      "auto_docs": "書類は自動作成",
+      "apply": "この仕事に応募する",
+      "hours_cap_warning": "上限確認"
+    },
+    "status": {
+      "applied": "応募中",
+      "accepted": "採用済み",
+      "rejected": "不採用"
+    },
+    "messages": {
+      "apply_success": "応募しました！雇用主の採用を待ちましょう",
+      "error_prefix": "エラー: "
+    }
+  },
+  "earnings": {
+    "kicker": "My Page",
+    "title": "マイページ",
+    "description": "評価、稼ぎ、提出済みデータを確認できます。",
+    "auto_chip": "自動反映",
+    "total_label": "これまで ぜんぶ",
+    "total_note": "雇用主の書類提出・就労データから反映",
+    "no_edit": {
+      "title": "自分では編集できません",
+      "desc": "給与は、雇用主が提出した様式第3号と就労条件（時給・週時間）をもとに反映されます。"
+    },
+    "chart": {
+      "title": "月ごとの稼ぎ",
+      "empty": "提出後にグラフが表示されます",
+      "aria": "月ごとの稼ぎグラフ"
+    },
+    "empty": {
+      "title": "稼ぎ記録がありません",
+      "desc": "雇用主が書類を提出すると、ここに自動で反映されます"
+    },
+    "row": {
+      "month_suffix": "分",
+      "source_note": "提出データ由来",
+      "default_employer": "雇用主",
+      "ratings_suffix": "件の評価"
+    }
+  },
+  "documents": {
+    "kicker": "Documents",
+    "title": "書類",
+    "description": "ハローワークに出した書類を確認できます。",
+    "count_suffix": "件",
+    "auto": {
+      "title": "書類はアプリが自動作成",
+      "desc": "あなたは在留カード情報を確認するだけ。むずかしい手続きは雇用主とアプリで進めます。"
+    },
+    "empty": {
+      "title": "書類がありません",
+      "desc": "雇用主があなたについて書類を提出すると、ここに表示されます"
+    },
+    "card": {
+      "form_type": "外国人雇用状況届出書",
+      "submitted_to": "提出先: ",
+      "submitted_on": "提出日: ",
+      "view_content": "書類の内容を見る",
+      "default_form": "様式第3号"
+    }
+  },
+  "consult": {
+    "kicker": "Support",
+    "title": "相談",
+    "description": "こまったことを、やさしい日本語で確認できます。",
+    "secret_chip": "ひみつ",
+    "free": {
+      "title": "そうだんも べんきょうも むりょう",
+      "desc": "お店の利用料の一部で、ワーカーの生活相談と日本語学習を支えます。"
+    },
+    "section_title": "こまったこと、ありませんか？",
+    "ai": {
+      "title": "AI に きく",
+      "desc": "本番では24時間、やさしい日本語で答えます。",
+      "chip": "すぐ"
+    },
+    "human": {
+      "title": "人に そうだんする",
+      "desc": "専門家への予約と通訳サポートを想定しています。",
+      "chip": "予約"
+    },
+    "topics_title": "よくある相談",
+    "topics": [
+      ["ビザ・ざいりゅう", "在留カード、更新、はたらける時間の相談"],
+      ["ぜいきん・おかね", "給与、税金、生活費の不安"],
+      ["びょういん・けんこう", "病気、けが、病院の行き方"],
+      ["しごとの なやみ", "職場で困ったこと、言葉の不安"]
+    ]
+  },
+  "rate": {
+    "kicker": "Mutual Rating",
+    "title": "評価",
+    "description": "お店を星1〜5で評価します。おたがいの信頼につながります。",
+    "section_title": "お店はどうでしたか？",
+    "hire_id": {
+      "label": "就労ID (Hire ID)",
+      "placeholder": "例: hire-c001",
+      "hint": "シードデータの完了済み就労: "
+    },
+    "stars": {
+      "label": "星1〜5",
+      "selected": "{n}星を選択中"
+    },
+    "comment": {
+      "label": "コメント（任意）",
+      "placeholder": "ていねいに教えてくれた、また働きたい など"
+    },
+    "submit": "評価を送信",
+    "success": {
+      "title": "評価を送信しました！",
+      "desc": "{n}★ — ありがとうございます"
+    },
+    "errors": {
+      "select_stars": "星を選択してください",
+      "prefix": "エラー: "
+    }
+  }
+}

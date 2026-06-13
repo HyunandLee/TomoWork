@@ -1,13 +1,21 @@
 import { auth } from '@/lib/auth/options';
-import { redirect } from 'next/navigation';
+import { redirect, notFound } from 'next/navigation';
 import { repo } from '@/lib/db/repo';
+import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { SessionUser } from '@/lib/types';
+import type { Locale } from '@/app/worker/dictionaries';
 
-export default async function WorkerDocumentsPage() {
+export default async function WorkerDocumentsPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+
   const session = await auth();
   if (!session?.user) redirect('/login');
   const user = session.user as unknown as SessionUser;
   if (!user.linkedWorkerId) redirect('/login');
+
+  const dict = await getDictionary(lang as Locale);
+  const d = dict.documents;
 
   const submissions = repo.listSubmissionsByWorker(user.linkedWorkerId);
 
@@ -15,19 +23,19 @@ export default async function WorkerDocumentsPage() {
     <div className="page-body tw-page">
       <div className="tw-hero">
         <div>
-          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>Documents</div>
-          <h1><ruby>書類<rt>しょるい</rt></ruby></h1>
-          <p>ハローワークに出した書類を確認できます。</p>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>{d.kicker}</div>
+          <h1>{d.title}</h1>
+          <p>{d.description}</p>
         </div>
-        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>{submissions.length}件</span>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>{submissions.length}{d.count_suffix}</span>
       </div>
 
       <div className="tw-soft-panel">
         <div className="tw-row">
           <span className="tw-avatar">守</span>
           <div>
-            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>書類はアプリが自動作成</div>
-            <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>あなたは在留カード情報を確認するだけ。むずかしい手続きは雇用主とアプリで進めます。</div>
+            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>{d.auto.title}</div>
+            <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>{d.auto.desc}</div>
           </div>
         </div>
       </div>
@@ -35,8 +43,8 @@ export default async function WorkerDocumentsPage() {
       {submissions.length === 0 ? (
         <div className="empty-state card">
           <div className="empty-state-icon">📄</div>
-          <h3>書類がありません</h3>
-          <p>雇用主があなたについて書類を提出すると、ここに表示されます</p>
+          <h3>{d.empty.title}</h3>
+          <p>{d.empty.desc}</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -44,15 +52,15 @@ export default async function WorkerDocumentsPage() {
             <div key={s.id} className="card">
               <div className="tw-row-between" style={{ alignItems: 'flex-start', flexWrap: 'wrap' }}>
                 <div>
-                  <div className="tw-kicker">外国人雇用状況届出書</div>
+                  <div className="tw-kicker">{d.card.form_type}</div>
                   <div style={{ fontWeight: 700, fontFamily: 'monospace', marginBottom: '.25rem' }}>{s.receiptNo}</div>
                   <div style={{ fontSize: '.85rem', color: 'var(--tw-muted)' }}>
-                    提出先: {s.employerId} / 提出日: {s.createdAt.slice(0, 10)}
+                    {d.card.submitted_to}{s.employerId} / {d.card.submitted_on}{s.createdAt.slice(0, 10)}
                   </div>
                 </div>
                 <div className="tw-chip-list">
                   <span className="tw-chip">
-                    {s.formId === 'shiki3' ? '様式第3号' : s.formId}
+                    {s.formId === 'shiki3' ? d.card.default_form : s.formId}
                   </span>
                   <span className="tw-chip tw-chip-plain">{s.status}</span>
                 </div>
@@ -60,10 +68,10 @@ export default async function WorkerDocumentsPage() {
               {s.payload && (
                 <details style={{ marginTop: '1rem' }}>
                   <summary style={{ cursor: 'pointer', fontSize: '.875rem', color: 'var(--blue)', fontWeight: 600 }}>
-                    書類の内容を見る
+                    {d.card.view_content}
                   </summary>
                   <div className="shiki3-doc" style={{ marginTop: '.75rem' }}>
-                    <div className="shiki3-title">{(s.payload as { titleJa?: string }).titleJa ?? '様式第3号'}</div>
+                    <div className="shiki3-title">{(s.payload as { titleJa?: string }).titleJa ?? d.card.default_form}</div>
                     <table className="shiki3-table">
                       <tbody>
                         {((s.payload as { fields?: Array<{ key: string; labelJa: string; value: string }> }).fields ?? []).map(f => (

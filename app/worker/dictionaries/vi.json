@@ -1,0 +1,201 @@
+{
+  "lang": {
+    "ja": "やさしい日本語",
+    "en": "English",
+    "vi": "Tiếng Việt",
+    "ku": "Kurdî"
+  },
+  "brand": {
+    "tagline": "Việc làm linh hoạt cho người nước ngoài"
+  },
+  "nav": {
+    "search": "Tìm việc",
+    "jobs": "Việc làm",
+    "consult": "Hỗ trợ",
+    "documents": "Hồ sơ",
+    "mypage": "Của tôi"
+  },
+  "dashboard": {
+    "kicker": "TunaWork Worker",
+    "title": "Việc làm của tôi",
+    "your_rating": "Đánh giá của bạn",
+    "ratings_count": " đánh giá",
+    "stats": {
+      "pending_apps": "Đã nộp đơn",
+      "accepted": "Đã tuyển",
+      "documents": "Hồ sơ đã nộp",
+      "total_earnings": "Tổng thu nhập",
+      "avg_rating": "Đánh giá TB",
+      "ratings_count": " đánh giá"
+    },
+    "residence": {
+      "kicker": "Kiểm tra tư cách lưu trú",
+      "work_permit": "Được phép làm việc",
+      "no_permit": "Chưa có giấy phép",
+      "weekly_hours": "Số giờ dự kiến tuần này",
+      "ok": "OK",
+      "over": "Cần kiểm tra",
+      "card_no": "Số thẻ lưu trú",
+      "completed_jobs": "Việc đã hoàn thành",
+      "upcoming_jobs": "Việc sắp tới",
+      "count": " việc"
+    },
+    "recent_docs": {
+      "title": "📁 Hồ sơ gần đây",
+      "empty": "Chưa có hồ sơ",
+      "view_all": "Xem tất cả →"
+    },
+    "recent_earnings": {
+      "title": "💴 Thu nhập gần đây",
+      "empty": "Chưa có ghi nhận thu nhập",
+      "view_all": "Xem ở trang của tôi →"
+    },
+    "actions": {
+      "title": "Tiếp theo nên làm gì",
+      "find_job": "Tìm việc làm",
+      "documents": "Hồ sơ của tôi",
+      "mypage": "Trang của tôi",
+      "rate": "Đánh giá nhà tuyển dụng"
+    }
+  },
+  "jobs": {
+    "kicker": "Worker App",
+    "title": "Tìm việc làm",
+    "description": "Kiểm tra nội dung bằng ngôn ngữ dễ hiểu và chọn công việc phù hợp.",
+    "pending": "Đã nộp đơn",
+    "warning": {
+      "title": "Chú ý số giờ làm việc trong tuần",
+      "desc": "Visa du học và visa thân nhân bị giới hạn 28 giờ/tuần. Tổng cộng tất cả công việc."
+    },
+    "search": {
+      "label": "Tìm theo công việc hoặc địa điểm",
+      "placeholder": "VD: quán cà phê, Shibuya, giao hàng"
+    },
+    "category": {
+      "label": "Danh mục",
+      "all": "Tất cả"
+    },
+    "empty": "Hiện không có tin tuyển dụng nào",
+    "card": {
+      "default_employer": "Nhà tuyển dụng",
+      "weekly_hours": "Số giờ/tuần",
+      "monthly_estimate": "Ước tính thu nhập/tháng",
+      "auto_docs": "Hồ sơ tự động",
+      "apply": "Nộp đơn cho việc này",
+      "hours_cap_warning": "Kiểm tra giới hạn"
+    },
+    "status": {
+      "applied": "Đã nộp đơn",
+      "accepted": "Đã được tuyển",
+      "rejected": "Không được tuyển"
+    },
+    "messages": {
+      "apply_success": "Đã nộp đơn! Hãy chờ phản hồi từ nhà tuyển dụng.",
+      "error_prefix": "Lỗi: "
+    }
+  },
+  "earnings": {
+    "kicker": "My Page",
+    "title": "Trang của tôi",
+    "description": "Xem đánh giá, thu nhập và dữ liệu đã nộp.",
+    "auto_chip": "Tự động cập nhật",
+    "total_label": "Tổng thu nhập",
+    "total_note": "Phản ánh từ hồ sơ nhà tuyển dụng đã nộp và điều kiện làm việc",
+    "no_edit": {
+      "title": "Bạn không thể chỉnh sửa",
+      "desc": "Lương được phản ánh từ Mẫu 3 và điều kiện làm việc (lương giờ và số giờ/tuần) do nhà tuyển dụng nộp."
+    },
+    "chart": {
+      "title": "Thu nhập theo tháng",
+      "empty": "Biểu đồ sẽ hiển thị sau khi nộp hồ sơ",
+      "aria": "Biểu đồ thu nhập theo tháng"
+    },
+    "empty": {
+      "title": "Chưa có ghi nhận thu nhập",
+      "desc": "Khi nhà tuyển dụng nộp hồ sơ, thu nhập của bạn sẽ tự động hiển thị ở đây."
+    },
+    "row": {
+      "month_suffix": "",
+      "source_note": "Từ dữ liệu đã nộp",
+      "default_employer": "Nhà tuyển dụng",
+      "ratings_suffix": " đánh giá"
+    }
+  },
+  "documents": {
+    "kicker": "Documents",
+    "title": "Hồ sơ",
+    "description": "Xem hồ sơ đã nộp lên Hello Work.",
+    "count_suffix": " hồ sơ",
+    "auto": {
+      "title": "Hồ sơ được tạo tự động",
+      "desc": "Bạn chỉ cần xác nhận thông tin thẻ lưu trú. Nhà tuyển dụng và ứng dụng sẽ xử lý các thủ tục phức tạp."
+    },
+    "empty": {
+      "title": "Chưa có hồ sơ",
+      "desc": "Khi nhà tuyển dụng nộp hồ sơ về bạn, chúng sẽ hiển thị ở đây."
+    },
+    "card": {
+      "form_type": "Báo cáo tình trạng tuyển dụng lao động nước ngoài",
+      "submitted_to": "Nộp tới: ",
+      "submitted_on": "Ngày nộp: ",
+      "view_content": "Xem nội dung hồ sơ",
+      "default_form": "Mẫu 3"
+    }
+  },
+  "consult": {
+    "kicker": "Support",
+    "title": "Hỗ trợ",
+    "description": "Kiểm tra những vấn đề bạn gặp phải bằng ngôn ngữ dễ hiểu.",
+    "secret_chip": "Bí mật",
+    "free": {
+      "title": "Tư vấn và học tập đều miễn phí",
+      "desc": "Một phần phí của cửa hàng hỗ trợ tư vấn cuộc sống và học tiếng Nhật cho người lao động."
+    },
+    "section_title": "Bạn có vấn đề gì không?",
+    "ai": {
+      "title": "Hỏi AI",
+      "desc": "Sẵn sàng 24 giờ bằng ngôn ngữ dễ hiểu trong phiên bản thực tế.",
+      "chip": "Ngay"
+    },
+    "human": {
+      "title": "Nói chuyện với người tư vấn",
+      "desc": "Dự kiến hỗ trợ đặt lịch hẹn với chuyên gia và phiên dịch.",
+      "chip": "Đặt lịch"
+    },
+    "topics_title": "Các vấn đề thường gặp",
+    "topics": [
+      ["Visa & Lưu trú", "Thẻ lưu trú, gia hạn, giới hạn giờ làm việc"],
+      ["Thuế & Tiền bạc", "Lương, thuế, chi phí sinh hoạt"],
+      ["Bệnh viện & Sức khỏe", "Ốm đau, chấn thương, cách đến bệnh viện"],
+      ["Vấn đề công việc", "Khó khăn tại nơi làm việc, rào cản ngôn ngữ"]
+    ]
+  },
+  "rate": {
+    "kicker": "Mutual Rating",
+    "title": "Đánh giá",
+    "description": "Đánh giá nhà tuyển dụng từ 1 đến 5 sao. Điều này xây dựng sự tin tưởng lẫn nhau.",
+    "section_title": "Nhà tuyển dụng thế nào?",
+    "hire_id": {
+      "label": "Mã tuyển dụng (Hire ID)",
+      "placeholder": "VD: hire-c001",
+      "hint": "Lần tuyển dụng hoàn thành trong dữ liệu mẫu: "
+    },
+    "stars": {
+      "label": "1 đến 5 sao",
+      "selected": "Đã chọn {n} sao"
+    },
+    "comment": {
+      "label": "Nhận xét (không bắt buộc)",
+      "placeholder": "VD: giải thích rõ ràng, muốn làm lại ở đây"
+    },
+    "submit": "Gửi đánh giá",
+    "success": {
+      "title": "Đã gửi đánh giá!",
+      "desc": "{n}★ — Cảm ơn bạn!"
+    },
+    "errors": {
+      "select_stars": "Vui lòng chọn số sao",
+      "prefix": "Lỗi: "
+    }
+  }
+}

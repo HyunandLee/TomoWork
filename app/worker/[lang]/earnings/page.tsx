@@ -1,12 +1,16 @@
 import { auth } from '@/lib/auth/options';
-import { redirect } from 'next/navigation';
+import { redirect, notFound } from 'next/navigation';
 import { repo } from '@/lib/db/repo';
 import { workerRatingSummary } from '@/lib/ratings/ratings';
-import type { Earning, SessionUser } from '@/lib/types';
+import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
+import type { SessionUser, Earning } from '@/lib/types';
+import type { Locale } from '@/app/worker/dictionaries';
 
-function monthLabel(month: string): string {
+function monthLabel(month: string, lang: string): string {
   const [, m] = month.split('-');
-  return `${Number(m)}月`;
+  if (lang === 'ja') return `${Number(m)}月`;
+  if (lang === 'vi') return `Tháng ${Number(m)}`;
+  return `Month ${Number(m)}`;
 }
 
 function groupByMonth(earnings: Earning[]) {
@@ -21,11 +25,17 @@ function groupByMonth(earnings: Earning[]) {
     .map(([month, amount]) => ({ month, amount }));
 }
 
-export default async function WorkerEarningsPage() {
+export default async function WorkerEarningsPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+
   const session = await auth();
   if (!session?.user) redirect('/login');
   const user = session.user as unknown as SessionUser;
   if (!user.linkedWorkerId) redirect('/login');
+
+  const dict = await getDictionary(lang as Locale);
+  const d = dict.earnings;
 
   const worker = repo.getWorker(user.linkedWorkerId);
   const earnings = repo.listEarningsByWorker(user.linkedWorkerId);
@@ -38,11 +48,11 @@ export default async function WorkerEarningsPage() {
     <div className="page-body tw-page">
       <div className="tw-hero">
         <div>
-          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>My Page</div>
-          <h1>マイページ</h1>
-          <p>評価、稼ぎ、提出済みデータを確認できます。</p>
+          <div className="tw-kicker" style={{ color: 'rgba(255,255,255,.72)' }}>{d.kicker}</div>
+          <h1>{d.title}</h1>
+          <p>{d.description}</p>
         </div>
-        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>自動反映</span>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>{d.auto_chip}</span>
       </div>
 
       <div className="card">
@@ -62,16 +72,16 @@ export default async function WorkerEarningsPage() {
           </div>
           <div style={{ textAlign: 'right' }}>
             <div className="tw-stars">{rating.count > 0 ? `★ ${rating.averageStars.toFixed(1)}` : '★ —'}</div>
-            <div style={{ color: 'var(--tw-muted)', fontSize: '.75rem', fontWeight: 800 }}>{rating.count}件の評価</div>
+            <div style={{ color: 'var(--tw-muted)', fontSize: '.75rem', fontWeight: 800 }}>{rating.count}{d.row.ratings_suffix}</div>
           </div>
         </div>
       </div>
 
       <div className="card" style={{ background: 'var(--tw-primary)', color: '#fff', border: 'none' }}>
-        <div style={{ opacity: .86, fontWeight: 800, fontSize: '.8rem' }}>これまで ぜんぶ</div>
+        <div style={{ opacity: .86, fontWeight: 800, fontSize: '.8rem' }}>{d.total_label}</div>
         <div style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.15 }}>¥{total.toLocaleString()}</div>
         <div style={{ opacity: .8, fontWeight: 700, fontSize: '.85rem', marginTop: '.35rem' }}>
-          雇用主の書類提出・就労データから反映
+          {d.total_note}
         </div>
       </div>
 
@@ -79,23 +89,23 @@ export default async function WorkerEarningsPage() {
         <div className="tw-row">
           <span className="tw-avatar">¥</span>
           <div>
-            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>自分では編集できません</div>
+            <div style={{ fontWeight: 800, color: 'var(--tw-primary-dark)' }}>{d.no_edit.title}</div>
             <div style={{ color: 'var(--tw-muted)', fontSize: '.88rem' }}>
-              給与は、雇用主が提出した様式第3号と就労条件（時給・週時間）をもとに反映されます。
+              {d.no_edit.desc}
             </div>
           </div>
         </div>
       </div>
 
       <div className="card">
-        <div className="card-title">月ごとの稼ぎ</div>
+        <div className="card-title">{d.chart.title}</div>
         {monthly.length === 0 ? (
-          <p className="text-sm text-muted">提出後にグラフが表示されます</p>
+          <p className="text-sm text-muted">{d.chart.empty}</p>
         ) : (
-          <div className="salary-chart" aria-label="月ごとの稼ぎグラフ">
+          <div className="salary-chart" aria-label={d.chart.aria}>
             {monthly.map((item) => (
               <div key={item.month} className="salary-bar-row">
-                <div className="salary-bar-label">{monthLabel(item.month)}</div>
+                <div className="salary-bar-label">{monthLabel(item.month, lang)}</div>
                 <div className="salary-bar-track">
                   <span style={{ width: `${Math.max(8, Math.round((item.amount / maxMonthly) * 100))}%` }} />
                 </div>
@@ -109,8 +119,8 @@ export default async function WorkerEarningsPage() {
       {earnings.length === 0 ? (
         <div className="empty-state card">
           <div className="empty-state-icon">¥</div>
-          <h3>稼ぎ記録がありません</h3>
-          <p>雇用主が書類を提出すると、ここに自動で反映されます</p>
+          <h3>{d.empty.title}</h3>
+          <p>{d.empty.desc}</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
@@ -121,15 +131,15 @@ export default async function WorkerEarningsPage() {
               <div key={earning.id} className="card">
                 <div className="tw-row-between">
                   <div>
-                    <div style={{ fontWeight: 800 }}>{earning.workedOn.slice(0, 7)} 分</div>
+                    <div style={{ fontWeight: 800 }}>{earning.workedOn.slice(0, 7)}{d.row.month_suffix}</div>
                     <div style={{ color: 'var(--tw-muted)', fontSize: '.8rem' }}>
-                      {employer?.officeName ?? '雇用主'} / {hire?.jobCategory ?? earning.hireId}
+                      {employer?.officeName ?? d.row.default_employer} / {hire?.jobCategory ?? earning.hireId}
                     </div>
                   </div>
                   <div style={{ color: 'var(--tw-primary-dark)', fontSize: '1.15rem', fontWeight: 800 }}>+¥{earning.amount.toLocaleString()}</div>
                 </div>
                 <div style={{ color: 'var(--tw-muted)', fontSize: '.78rem', marginTop: '.35rem' }}>
-                  提出データ由来 / hire: {earning.hireId}
+                  {d.row.source_note} / hire: {earning.hireId}
                 </div>
               </div>
             );
