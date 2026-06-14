@@ -5,6 +5,7 @@ import { repo } from '@/lib/db/repo';
 import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { SessionUser, Application } from '@/lib/types';
 import type { Locale } from '@/app/worker/dictionaries';
+import { IconFolders } from '@tabler/icons-react';
 
 type Tab = 'all' | 'applied' | 'accepted' | 'rejected';
 const TABS: Tab[] = ['all', 'applied', 'accepted', 'rejected'];
@@ -72,7 +73,7 @@ export default async function WorkerApplicationsPage({
 
       {filtered.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">🗂️</div>
+          <div className="empty-state-icon"><IconFolders size={48} stroke={1.5} aria-hidden /></div>
           <h3>{d.empty}</h3>
           <Link href={`/worker/${lang}/jobs`} className="btn btn-secondary btn-sm mt-sm">{d.back}</Link>
         </div>

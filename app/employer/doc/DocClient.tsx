@@ -5,6 +5,7 @@ import type { HireEvent } from '@/lib/types';
 import type { DocPreview } from '@/lib/submission/submit';
 import type { Submission } from '@/lib/types';
 import { uiStateFor } from '@/lib/constants/uiStateMap';
+import { IconFileText } from '@tabler/icons-react';
 
 type HireOption = HireEvent & {
   workerName?: string;
@@ -252,7 +253,7 @@ export default function DocClient({ pendingHires, selectedHireId, preview, submi
 
       {!selectedHireId && pendingHires.length === 0 && (
         <div className="empty-state card">
-          <div className="empty-state-icon">📄</div>
+          <div className="empty-state-icon"><IconFileText size={48} stroke={1.5} aria-hidden /></div>
           <h3>待機中の就労がありません</h3>
           <p>応募者を採用すると書類生成の対象が表示されます</p>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import type { JobPosting } from '@/lib/types';
+import { IconClipboardList } from '@tabler/icons-react';
 
 export default function EmployerJobsPage() {
   const [jobs, setJobs] = useState<JobPosting[]>([]);
@@ -115,7 +116,7 @@ export default function EmployerJobsPage() {
         <div className="text-center mt-lg"><span className="spinner" /></div>
       ) : jobs.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">📋</div>
+          <div className="empty-state-icon"><IconClipboardList size={48} stroke={1.5} aria-hidden /></div>
           <h3>求人がありません</h3>
           <p>「求人を投稿」ボタンから最初の求人を作成しましょう</p>
         </div>

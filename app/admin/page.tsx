@@ -5,6 +5,7 @@ import { runSeed } from '@/lib/seed';
 import { getDb } from '@/lib/db/migrate';
 import type { SessionUser } from '@/lib/types';
 import AdminClient from './AdminClient';
+import { IconSettings, IconClipboardList, IconUsers } from '@tabler/icons-react';
 
 function ensureSeeded() {
   try {
@@ -28,14 +29,14 @@ export default async function AdminPage() {
   return (
     <div className="page-body">
       <div className="page-header">
-        <h1>⚙️ 管理画面</h1>
+        <h1 style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}><IconSettings size={26} stroke={1.75} aria-hidden />管理画面</h1>
         <p>全届出一覧・シードリセット（開発用）</p>
       </div>
 
       <AdminClient />
 
       <div className="card mt-lg">
-        <div className="card-title">📋 全届出一覧 ({submissions.length}件)</div>
+        <div className="card-title"><IconClipboardList size={18} stroke={1.75} aria-hidden />全届出一覧 ({submissions.length}件)</div>
         {submissions.length === 0 ? (
           <div className="empty-state" style={{ padding: '2rem' }}>
             <p className="text-muted">届出がありません</p>
@@ -71,7 +72,7 @@ export default async function AdminPage() {
       </div>
 
       <div className="card mt-lg">
-        <div className="card-title">👥 全ワーカー一覧 ({workers.length}人)</div>
+        <div className="card-title"><IconUsers size={18} stroke={1.75} aria-hidden />全ワーカー一覧 ({workers.length}人)</div>
         <div className="table-wrap">
           <table>
             <thead>

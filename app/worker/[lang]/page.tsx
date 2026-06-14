@@ -8,6 +8,7 @@ import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { SessionUser } from '@/lib/types';
 import type { Locale } from '@/app/worker/dictionaries';
 import Link from 'next/link';
+import { IconBell, IconFolder, IconCoin } from '@tabler/icons-react';
 
 function ensureSeeded() {
   try {
@@ -72,7 +73,7 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
               color: '#fff', fontSize: '1.2rem', textDecoration: 'none', marginBottom: '.5rem',
             }}
           >
-            🔔
+            <IconBell size={22} stroke={1.75} aria-hidden />
             {unreadNotifications > 0 && (
               <span style={{
                 position: 'absolute', top: -4, right: -4, minWidth: 18, height: 18, padding: '0 4px',
@@ -161,7 +162,7 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
 
       <div className="card-grid">
         <div className="card">
-          <div className="card-title">{d.recent_docs.title}</div>
+          <div className="card-title"><IconFolder size={18} stroke={1.75} aria-hidden />{d.recent_docs.title}</div>
           {submissions.length === 0 ? (
             <p className="text-sm text-muted">{d.recent_docs.empty}</p>
           ) : (
@@ -178,7 +179,7 @@ export default async function WorkerDashboard({ params }: { params: Promise<{ la
         </div>
 
         <div className="card">
-          <div className="card-title">{d.recent_earnings.title}</div>
+          <div className="card-title"><IconCoin size={18} stroke={1.75} aria-hidden />{d.recent_earnings.title}</div>
           {earnings.length === 0 ? (
             <p className="text-sm text-muted">{d.recent_earnings.empty}</p>
           ) : (

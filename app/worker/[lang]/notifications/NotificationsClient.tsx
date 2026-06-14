@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Dictionary } from '@/app/worker/dictionaries';
 import type { NotificationView } from '@/lib/api/contracts';
+import { IconBell } from '@tabler/icons-react';
 
 type Props = {
   lang: string;
@@ -53,12 +54,12 @@ export default function NotificationsClient({ lang, d }: Props) {
           <h1>{d.title}</h1>
           <p>{d.description}</p>
         </div>
-        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}>🔔</span>
+        <span className="tw-chip" style={{ background: 'rgba(255,255,255,.16)', color: '#fff' }}><IconBell size={16} stroke={1.75} aria-hidden /></span>
       </div>
 
       {items.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">🔔</div>
+          <div className="empty-state-icon"><IconBell size={48} stroke={1.5} aria-hidden /></div>
           <h3>{d.empty}</h3>
         </div>
       ) : (

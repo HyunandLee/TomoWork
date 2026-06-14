@@ -157,7 +157,7 @@ p { color: var(--gray-600); }
   background: var(--tw-primary-soft);
   border-left-color: var(--tw-primary);
 }
-.sidebar-nav a .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
+.sidebar-nav a .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; }
 
 .sidebar-footer {
   padding: 1rem 1.25rem;
@@ -490,7 +490,7 @@ tr:hover td { background: var(--blue-pale2); }
   text-align: left;
 }
 .dev-btn:hover { border-color: var(--blue); background: var(--blue-pale2); color: var(--blue); }
-.dev-btn-icon { font-size: 1.1rem; }
+.dev-btn-icon { display: inline-flex; align-items: center; justify-content: center; }
 .dev-label { font-size: .7rem; font-weight: 400; color: var(--gray-400); display: block; }
 
 /* ---- Job Cards ---- */
@@ -547,7 +547,7 @@ tr:hover td { background: var(--blue-pale2); }
   padding: 3rem 1.5rem;
   color: var(--gray-400);
 }
-.empty-state-icon { font-size: 3rem; margin-bottom: 1rem; }
+.empty-state-icon { display: flex; justify-content: center; margin-bottom: 1rem; color: var(--gray-300); }
 .empty-state h3 { color: var(--gray-500); margin-bottom: .5rem; }
 
 /* ---- Alerts ---- */
@@ -980,7 +980,9 @@ ruby rt {
 }
 
 .worker-bottom-icon {
-  font-size: 1.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
 }
 

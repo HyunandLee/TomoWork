@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { Locale } from '@/app/worker/dictionaries';
+import { IconHeart } from '@tabler/icons-react';
 
 export default async function WorkerConsultPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -22,7 +23,7 @@ export default async function WorkerConsultPage({ params }: { params: Promise<{ 
 
       <div className="tw-coral-panel">
         <div className="tw-row">
-          <span className="tw-avatar" style={{ background: '#fff', color: 'var(--tw-coral)' }}>♡</span>
+          <span className="tw-avatar" style={{ background: '#fff', color: 'var(--tw-coral)' }}><IconHeart size={22} stroke={1.75} aria-hidden /></span>
           <div>
             <div style={{ fontWeight: 800, color: '#9a3d26' }}>{d.free.title}</div>
             <div style={{ color: '#9a3d26', fontSize: '.88rem' }}>{d.free.desc}</div>

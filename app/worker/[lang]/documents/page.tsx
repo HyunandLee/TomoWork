@@ -4,6 +4,7 @@ import { repo } from '@/lib/db/repo';
 import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { SessionUser } from '@/lib/types';
 import type { Locale } from '@/app/worker/dictionaries';
+import { IconFileText } from '@tabler/icons-react';
 
 export default async function WorkerDocumentsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -42,7 +43,7 @@ export default async function WorkerDocumentsPage({ params }: { params: Promise<
 
       {submissions.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">📄</div>
+          <div className="empty-state-icon"><IconFileText size={48} stroke={1.5} aria-hidden /></div>
           <h3>{d.empty.title}</h3>
           <p>{d.empty.desc}</p>
         </div>

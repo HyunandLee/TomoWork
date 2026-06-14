@@ -2,6 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  IconSearch,
+  IconBriefcase,
+  IconMessageCircle,
+  IconFileText,
+  IconUser,
+} from '@tabler/icons-react';
 import type { Dictionary } from '@/app/worker/dictionaries';
 
 type Props = {
@@ -13,21 +20,23 @@ export default function WorkerBottomNav({ lang, nav }: Props) {
   const pathname = usePathname();
 
   const ITEMS = [
-    { href: `/worker/${lang}/jobs`, icon: '⌕', label: nav.search },
-    { href: `/worker/${lang}`, icon: '▣', label: nav.jobs },
-    { href: `/worker/${lang}/consult`, icon: '♡', label: nav.consult },
-    { href: `/worker/${lang}/documents`, icon: '□', label: nav.documents },
-    { href: `/worker/${lang}/earnings`, icon: '◉', label: nav.mypage },
+    { href: `/worker/${lang}/jobs`, Icon: IconSearch, label: nav.search },
+    { href: `/worker/${lang}`, Icon: IconBriefcase, label: nav.jobs },
+    { href: `/worker/${lang}/consult`, Icon: IconMessageCircle, label: nav.consult },
+    { href: `/worker/${lang}/documents`, Icon: IconFileText, label: nav.documents },
+    { href: `/worker/${lang}/earnings`, Icon: IconUser, label: nav.mypage },
   ];
 
   return (
     <nav className="worker-bottom-nav" aria-label="worker navigation">
-      {ITEMS.map((item) => {
-        const active = pathname === item.href;
+      {ITEMS.map(({ href, Icon, label }) => {
+        const active = pathname === href;
         return (
-          <Link key={item.href} href={item.href} className={active ? 'active' : ''}>
-            <span className="worker-bottom-icon">{item.icon}</span>
-            <span>{item.label}</span>
+          <Link key={href} href={href} className={active ? 'active' : ''}>
+            <span className="worker-bottom-icon">
+              <Icon size={24} stroke={1.75} aria-hidden />
+            </span>
+            <span>{label}</span>
           </Link>
         );
       })}

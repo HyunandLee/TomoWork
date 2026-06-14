@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth/options';
 import { redirect } from 'next/navigation';
 import { repo } from '@/lib/db/repo';
 import type { SessionUser } from '@/lib/types';
+import { IconFolder } from '@tabler/icons-react';
 
 export default async function EmployerHistoryPage() {
   const session = await auth();
@@ -24,7 +25,7 @@ export default async function EmployerHistoryPage() {
 
       {submissions.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">📁</div>
+          <div className="empty-state-icon"><IconFolder size={48} stroke={1.5} aria-hidden /></div>
           <h3>届出がありません</h3>
           <p>書類生成・提出を行うとここに表示されます</p>
         </div>

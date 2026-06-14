@@ -2,10 +2,22 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import {
+  IconLayoutDashboard,
+  IconBriefcase,
+  IconUsers,
+  IconFileText,
+  IconHistory,
+  IconStar,
+  IconSearch,
+  IconCoin,
+  IconSettings,
+  type Icon,
+} from '@tabler/icons-react';
 
 interface NavItem {
   href: string;
-  icon: string;
+  Icon: Icon;
   label: string;
 }
 
@@ -15,24 +27,24 @@ interface SidebarProps {
 }
 
 const EMPLOYER_NAV: NavItem[] = [
-  { href: '/employer', icon: '✦', label: 'ダッシュボード' },
-  { href: '/employer/jobs', icon: '▣', label: '求人' },
-  { href: '/employer/applicants', icon: '◉', label: '応募者' },
-  { href: '/employer/doc', icon: '□', label: '書類生成・提出' },
-  { href: '/employer/history', icon: '≡', label: '届出履歴' },
-  { href: '/employer/rate', icon: '★', label: '評価する' },
+  { href: '/employer', Icon: IconLayoutDashboard, label: 'ダッシュボード' },
+  { href: '/employer/jobs', Icon: IconBriefcase, label: '求人' },
+  { href: '/employer/applicants', Icon: IconUsers, label: '応募者' },
+  { href: '/employer/doc', Icon: IconFileText, label: '書類生成・提出' },
+  { href: '/employer/history', Icon: IconHistory, label: '届出履歴' },
+  { href: '/employer/rate', Icon: IconStar, label: '評価する' },
 ];
 
 const WORKER_NAV: NavItem[] = [
-  { href: '/worker', icon: '✦', label: 'ダッシュボード' },
-  { href: '/worker/jobs', icon: '⌕', label: 'バイト先を探す' },
-  { href: '/worker/documents', icon: '□', label: '自分の書類' },
-  { href: '/worker/earnings', icon: '¥', label: '稼ぎ記録' },
-  { href: '/worker/rate', icon: '★', label: '評価する' },
+  { href: '/worker', Icon: IconLayoutDashboard, label: 'ダッシュボード' },
+  { href: '/worker/jobs', Icon: IconSearch, label: 'バイト先を探す' },
+  { href: '/worker/documents', Icon: IconFileText, label: '自分の書類' },
+  { href: '/worker/earnings', Icon: IconCoin, label: '稼ぎ記録' },
+  { href: '/worker/rate', Icon: IconStar, label: '評価する' },
 ];
 
 const ADMIN_NAV: NavItem[] = [
-  { href: '/admin', icon: '⚙️', label: '管理画面' },
+  { href: '/admin', Icon: IconSettings, label: '管理画面' },
 ];
 
 const ROLE_LABELS = { employer: '雇用主', worker: '労働者', admin: '管理者' };
@@ -61,7 +73,9 @@ export default function Sidebar({ role, email }: SidebarProps) {
             href={item.href}
             className={pathname === item.href || (item.href !== `/${role}` && pathname.startsWith(item.href)) ? 'active' : ''}
           >
-            <span className="nav-icon">{item.icon}</span>
+            <span className="nav-icon">
+              <item.Icon size={20} stroke={1.75} aria-hidden />
+            </span>
             {item.label}
           </Link>
         ))}

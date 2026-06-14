@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import type { JobPosting, Application } from '@/lib/types';
 import type { Dictionary } from '@/app/worker/dictionaries';
+import { IconSearch } from '@tabler/icons-react';
 
 type JobCard = JobPosting & { employerName?: string };
 
@@ -106,7 +107,7 @@ export default function WorkerJobsClient({ d }: Props) {
         <div className="text-center"><span className="spinner" /></div>
       ) : jobs.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">🔍</div>
+          <div className="empty-state-icon"><IconSearch size={48} stroke={1.5} aria-hidden /></div>
           <h3>{d.empty}</h3>
         </div>
       ) : (

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Application } from '@/lib/types';
+import { IconUsers } from '@tabler/icons-react';
 
 interface ApplicationWithDetails extends Application {
   hireId?: string;
@@ -79,7 +80,7 @@ export default function EmployerApplicantsPage() {
         <div className="text-center"><span className="spinner" /></div>
       ) : applications.length === 0 ? (
         <div className="empty-state card">
-          <div className="empty-state-icon">👥</div>
+          <div className="empty-state-icon"><IconUsers size={48} stroke={1.5} aria-hidden /></div>
           <h3>応募者がいません</h3>
           <p>求人に応募が来るとここに表示されます</p>
         </div>

@@ -1,6 +1,15 @@
 'use client';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import {
+  IconKey,
+  IconBuilding,
+  IconBuildingStore,
+  IconTruck,
+  IconBed,
+  IconHelmet,
+  IconSettings,
+} from '@tabler/icons-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -91,7 +100,7 @@ export default function LoginPage() {
             style={{ justifyContent: 'center' }}
             disabled={loading}
           >
-            {loading ? <span className="spinner" /> : '🔑'}
+            {loading ? <span className="spinner" /> : <IconKey size={20} stroke={1.75} aria-hidden />}
             ログイン
           </button>
         </form>
@@ -107,7 +116,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('employer@example.com')}
                 disabled={loading}
               >
-                  <span className="dev-btn-icon">🏢</span>
+                  <span className="dev-btn-icon"><IconBuilding size={22} stroke={1.75} aria-hidden /></span>
                   <div>
                   <div>サカナカフェとしてログイン</div>
                   <span className="dev-label">employer@example.com / password</span>
@@ -120,7 +129,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('mart@example.com')}
                 disabled={loading}
               >
-                <span className="dev-btn-icon">🏪</span>
+                <span className="dev-btn-icon"><IconBuildingStore size={22} stroke={1.75} aria-hidden /></span>
                 <div>
                   <div>小売企業としてログイン</div>
                   <span className="dev-label">mart@example.com / password</span>
@@ -133,7 +142,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('delivery@example.com')}
                 disabled={loading}
               >
-                <span className="dev-btn-icon">🚚</span>
+                <span className="dev-btn-icon"><IconTruck size={22} stroke={1.75} aria-hidden /></span>
                 <div>
                   <div>配送企業としてログイン</div>
                   <span className="dev-label">delivery@example.com / password</span>
@@ -146,7 +155,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('hotel@example.com')}
                 disabled={loading}
               >
-                <span className="dev-btn-icon">🏨</span>
+                <span className="dev-btn-icon"><IconBed size={22} stroke={1.75} aria-hidden /></span>
                 <div>
                   <div>ホテル企業としてログイン</div>
                   <span className="dev-label">hotel@example.com / password</span>
@@ -159,7 +168,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('worker@example.com')}
                 disabled={loading}
               >
-                <span className="dev-btn-icon">👷</span>
+                <span className="dev-btn-icon"><IconHelmet size={22} stroke={1.75} aria-hidden /></span>
                 <div>
                   <div>労働者としてログイン</div>
                   <span className="dev-label">worker@example.com / password</span>
@@ -172,7 +181,7 @@ export default function LoginPage() {
                 onClick={() => quickLogin('admin@example.com')}
                 disabled={loading}
               >
-                <span className="dev-btn-icon">⚙️</span>
+                <span className="dev-btn-icon"><IconSettings size={22} stroke={1.75} aria-hidden /></span>
                 <div>
                   <div>管理者としてログイン</div>
                   <span className="dev-label">admin@example.com / password</span>
