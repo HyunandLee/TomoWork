@@ -6,7 +6,8 @@
     "ku": "Kurdî"
   },
   "brand": {
-    "tagline": "外国人の ための みじかい しごと"
+    "tagline": "外国人の ための みじかい しごと",
+    "logout": "ログアウト"
   },
   "nav": {
     "search": "さがす",

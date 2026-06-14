@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import WorkerBottomNav from '@/app/components/WorkerBottomNav';
 import LangSwitcher from '@/app/components/LangSwitcher';
+import WorkerLogoutButton from '@/app/components/WorkerLogoutButton';
 import { getDictionary, hasLocale } from '@/app/worker/dictionaries';
 import type { Locale } from '@/app/worker/dictionaries';
 
@@ -24,7 +25,10 @@ export default async function WorkerLangLayout({
           <strong>TunaWork</strong>
           <span>{dict.brand.tagline}</span>
         </div>
-        <LangSwitcher currentLang={lang as Locale} />
+        <div className="worker-brand-actions">
+          <LangSwitcher currentLang={lang as Locale} />
+          <WorkerLogoutButton label={dict.brand.logout} />
+        </div>
       </div>
       <div className="ios-device">
         <div className="ios-island" />

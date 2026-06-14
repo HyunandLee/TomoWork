@@ -6,7 +6,8 @@
     "ku": "Kurdî"
   },
   "brand": {
-    "tagline": "Flexible work for foreign nationals"
+    "tagline": "Flexible work for foreign nationals",
+    "logout": "Log out"
   },
   "nav": {
     "search": "Search",

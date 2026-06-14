@@ -815,6 +815,33 @@ ruby rt {
   justify-content: space-between;
 }
 
+.worker-brand-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.worker-logout {
+  display: inline-flex;
+  align-items: center;
+  height: 1.6rem;
+  padding: 0 .55rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--tw-muted);
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.worker-logout:hover {
+  background: rgba(0,0,0,.07);
+  color: var(--tw-ink);
+}
+
 .lang-switcher {
   display: flex;
   gap: .3rem;
